@@ -1,0 +1,10 @@
+{
+    "header.title": "Валидация проекта",
+    "header.login": "Войти",
+
+    "validation.tabs.timeline": "Временная линия",
+    "validation.tabs.dataUploads": "Загрузка данных",
+    "validation.tabs.challenges": "Вызовы",
+
+    "btn.load": "Загрузить больше"
+}

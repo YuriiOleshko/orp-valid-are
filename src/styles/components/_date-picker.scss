@@ -1,0 +1,52 @@
+
+.date {
+  &-wrapper {
+    flex: 0.5;
+    margin-right: 10px;
+    & .react-datepicker-wrapper {
+      width: 100%;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  &-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    color: $color-font-copy;
+  }
+  &-body {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 19px 10px 10px;
+    font-size: 14px;
+    background-color: $white;
+    outline: none;
+    border: none;
+    border-radius: 6px;
+    color: $color-font;
+    width: 100%;
+  }
+  &-values {
+    display: flex;
+    flex-direction: column;
+    line-height: 12px;
+    width: 56px;
+    margin-right: 24px;
+  }
+  &-select {
+    & i {
+      font-size: 7px;
+      vertical-align: bottom;
+    }
+  }
+  &-placeholder {
+    color: $color-placeholder;
+  }
+  &-all-time {
+    line-height: 24px;
+  }
+}

@@ -1,0 +1,28 @@
+// utilites
+@import "./utilites/variables";
+@import "./utilites//icons";
+@import "./utilites//base";
+@import "./utilites/base";
+
+// Fonts
+@import "./fonts/fonts";
+
+// components
+@import "./layout/layout";
+@import "./layout//layout-dash";
+@import "./layout/menu";
+@import "./layout/header";
+@import "./layout/tabs";
+@import "./components/date-picker";
+@import "./components/input";
+@import "./components/select";
+@import "./components/status";
+@import "./components/range";
+@import "./components/project-page";
+
+//pages
+@import "./pages/validation-data";
+@import "./layout/tabs";
+@import "page/timeline";
+
+

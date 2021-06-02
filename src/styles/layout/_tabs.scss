@@ -1,0 +1,25 @@
+.tabs {
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tab {
+    padding: 18px;
+    background-color: $white;
+    font-size: 21px;
+    font-weight: 700;
+    color: $color-font;
+    background-color: $white;
+    margin-right: 19px;
+    border-radius: 8px;
+    flex: 1;
+    text-align: center;
+    &:last-child {
+        margin-right: 0;
+    }
+    &-active {
+        background-color: $lightBlue;
+        color: $white;
+    }
+}

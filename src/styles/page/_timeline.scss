@@ -1,0 +1,118 @@
+.timeline {
+  max-height: 420px;
+  border-radius: 8px;
+  position: relative;
+
+  &__container {
+    display: flex;
+    //justify-content: space-between;
+    align-items: center;
+
+    overflow-x: scroll !important;
+    &::-webkit-scrollbar { width: 3px; height: 3px;}
+    //&::-webkit-scrollbar-track {  background-color: blue;}
+    &::-webkit-scrollbar-thumb { height: 20px; background-color: greenyellow; border-radius: 3px;}
+
+  }
+
+  &__scrolling-wrapper {
+    //overflow-x: scroll;
+    //overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    display: flex;
+    height: 420px;
+    background: white;
+    border-radius: 8px;
+
+    //&:before{
+    //  background-image: url('/assets/image/fieldpic.png') ;
+    //  content:'';
+    //  width: 100%;
+    //  position: absolute;
+    //  height: 48px;
+    //  top:50%;
+    //  left: 20px;
+    //  z-index: 2;
+    //  transform: translateY(-50%);
+    //}
+
+    &::-webkit-scrollbar {
+      // display: none;
+    }
+  }
+
+  &__card{
+    width: 104px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 353px;
+    &:before{
+      background-image: url('/assets/image/trees/secondEarth.png') ;
+      position: absolute;
+      content:'';
+      width:100%;
+      height: 48px;
+    }
+    background: white;
+
+    &.active{
+      background: $middelLightBlue!important;
+
+      .timeline__trees-btn{
+        z-index: 3;
+        opacity: 1;
+
+      }
+    }
+    &:first-child{
+      padding-left: 41px;
+      //width: 84px;
+      &:before{
+        background-image: url('/assets/image/trees/startEarth.png') ;
+      }
+    }
+    &:nth-child(even){
+      background: $secondWhite;
+      &:before{
+        background-image: url('/assets/image/trees/thirthEarth.png') ;
+
+      }
+    }
+
+  }
+
+  &__trees{
+    img{
+      margin-bottom: 124px;
+      object-fit: cover;
+      height: 80px;
+      z-index: 2;
+      position: relative;
+    }
+
+  }
+
+  &__trees-btn{
+    position: absolute;
+    top: 10px;
+    transform: translateX(-50%);
+    left: 50%;
+    white-space: nowrap;
+    z-index: -1;
+    opacity: 0;
+    transition: .3s;
+    button{
+      color:white;
+
+      background: $lightBlue;
+      padding: 8px 10px;
+
+      &:hover{
+
+      }
+    }
+  }
+}

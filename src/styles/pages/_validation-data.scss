@@ -1,0 +1,102 @@
+.validation {
+    &__filter {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 30px;
+    }
+    &__data {
+        margin-bottom: 30px;
+    }
+    &__data-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 12px;
+        color: $color-font-copy;
+        margin-bottom: 12px;
+        padding: 2px;
+        & .header-status {
+            flex-basis: 12%;
+        }
+        & .header-project {
+            flex-basis: 19%;
+        }
+        & .header-upload {
+            flex-basis: 10%;
+        }
+        & .header-stage {
+            flex-basis: 6%;
+        }
+        & .header-open {
+            flex-basis: 14%;
+        }
+        & .header-area {
+            flex-basis: 8%;
+        }
+        & .header-location {
+            flex-basis: 15%;
+        }
+    }
+    &__data-list {
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            color: $color-font;
+            margin-bottom: 10px;
+            border: 2px solid $white;
+            border-radius: 8px;
+            background-color: $white;
+            transition: 0.3s ease-in-out;
+            &:last-child {
+                margin-bottom: 0;
+            }
+            &:hover {
+                border-color: $color-bg-menu;
+                transition: 0.3s ease-in-out;
+            }
+        }
+        & .item-status {
+            flex-basis: 12%;
+            border-radius: 6px;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            color: $white;
+        }
+        & .item-project {
+            flex-basis: 19%;
+            font-weight: bold;
+        }
+        & .item-upload {
+            flex-basis: 10%;
+        }
+        & .item-stage {
+            flex-basis: 6%;
+        }
+        & .item-open {
+            flex-basis: 14%;
+        }
+        & .item-area {
+            flex-basis: 8%;
+        }
+        & .item-location {
+            flex-basis: 15%;
+            display: flex;
+            justify-content: space-between;
+            & i {
+                margin-right: 19px;
+            }
+        }
+    }
+    &__btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

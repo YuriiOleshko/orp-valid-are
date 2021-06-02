@@ -1,0 +1,52 @@
+.header {
+    padding: 22px 64px 22px 20px;
+    box-shadow: 2px 0px 4px rgb(0 0 0 / 15%);
+    background-color: $white;
+    position: relative;
+    z-index: 2;
+
+    &__wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__menu {
+        display: flex;
+        align-items: center;
+    }
+
+    &__navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__links {
+        align-items: center;
+        margin-right: 85px;
+    }
+
+    &__link {
+        font-size: 14px;
+        color: $color-font;
+        margin-right: 19px;
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    &__login {
+        display: flex;
+        align-items: center;
+        & .login {
+            margin-right: 10px;
+            font-size: 14px;
+            font-weight: 900;
+            color: $color-font;
+        }
+        & .icon-log-in {
+            font-size: 16px;
+        }
+    }
+}
