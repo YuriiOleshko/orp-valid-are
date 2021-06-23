@@ -52,8 +52,6 @@ p {
 .btn {
   display: block;
   padding: 10px 35px;
-  max-width: 180px;
-  width: 100%;
   outline: none;
   cursor: pointer;
   border: none;
@@ -65,5 +63,23 @@ p {
     background-color: $lightBlue;
     color: $white;
     border-radius: 6px;
+  }
+
+  &__disabled {
+    background-color: $tile_title_bottom_border !important;
+    cursor: not-allowed;
+  }
+
+  &__escalation {
+    background-color: transparent;
+    border: 1px solid $white;
+    border-radius: 90px;
+    font-size: 12px;
+    font-weight: 700;
+    max-width: 154px;
+    width: 100%;
+    color: $white;
+    padding: 8px 0px;
+    margin-top: 20px;
   }
 }

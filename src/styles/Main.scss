@@ -1,28 +1,29 @@
 // utilites
 @import "./utilites/variables";
-@import "./utilites//icons";
-@import "./utilites//base";
+@import "./utilites/icons";
 @import "./utilites/base";
 
 // Fonts
 @import "./fonts/fonts";
 
-// components
+// Layout
 @import "./layout/layout";
 @import "./layout//layout-dash";
 @import "./layout/menu";
 @import "./layout/header";
 @import "./layout/tabs";
+
+// components
 @import "./components/date-picker";
 @import "./components/input";
 @import "./components/select";
 @import "./components/status";
 @import "./components/range";
-@import "./components/project-page";
+@import "./components/stage-report";
+@import "./components/challenge-step2";
+@import "./components/resolution";
 
 //pages
+@import "./pages/project-page";
 @import "./pages/validation-data";
-@import "./layout/tabs";
-@import "page/timeline";
-
-
+@import "./pages/timeline";

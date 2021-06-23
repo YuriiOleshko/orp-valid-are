@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import PropTypes from 'prop-types';
-import RouteWithSubRoutes from '../RouteWithSubRoutes';
+import RouteWithSubRoutes from './RouteWithSubRoutes';
 
 const RenderRoutes = (props) => {
   const { routes } = props;

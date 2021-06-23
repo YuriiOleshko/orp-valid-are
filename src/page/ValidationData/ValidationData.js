@@ -1,9 +1,9 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import CustomBtn from '../../components/CustomBtn';
+import CustomBtn from '../../components/generic/CustomBtn';
 import ExistingProjects from '../../components/ExistingProjects';
-import Filter from '../../components/Filter';
+import Filter from './Filter';
 import { btnLoad } from './LangValidationData';
 
 const ValidationData = () => {

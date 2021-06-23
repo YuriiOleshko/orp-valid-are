@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import InfiniteScroll from './InfinitiScroll';
-import Range from './Range';
+import InfiniteScroll from './components/InfinitiScroll';
+import Range from './components/Range';
 import pic1 from '../../assets/image/trees/tree1.svg';
 import pic2 from '../../assets/image/trees/tree2.svg';
 import pic3 from '../../assets/image/trees/tree3.svg';

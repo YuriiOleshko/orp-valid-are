@@ -1,11 +1,12 @@
 import React, { createContext } from 'react';
 import { Redirect } from 'react-router';
-import Layout from './components/Layout';
-import LayoutDash from './components/LayoutDash';
-import ProjectPage from './components/ProjectPage/ProjectPage';
+import Layout from './Layouts/Layout';
+import LayoutDash from './Layouts/LayoutDash';
+import ProjectValidation from './page/ProjectValidation';
 import RenderRoutes from './components/RenderRoutes';
 import Timeline from './page/Timeline';
 import ValidationData from './page/ValidationData';
+import ProjectChallenge from './page/ProjectChallenge';
 
 const Page = createContext();
 const logged = true;
@@ -66,12 +67,22 @@ const routes = [
         ),
       },
       {
-        path: '/project/:name',
+        path: '/project/validation/:name',
         key: 'PROJECT',
         exact: true,
         component: () => (
           <LayoutDash>
-            <ProjectPage />
+            <ProjectValidation />
+          </LayoutDash>
+        ),
+      },
+      {
+        path: '/project/challenge/:name',
+        key: 'PROJECT',
+        exact: true,
+        component: () => (
+          <LayoutDash>
+            <ProjectChallenge />
           </LayoutDash>
         ),
       },

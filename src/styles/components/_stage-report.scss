@@ -1,0 +1,21 @@
+.stage__report {
+  width: 154px;
+  height: 32px;
+
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: $lightBlue;
+  border-radius: 90px;
+  margin-left: 20px;
+}
+.stage__report span {
+  font-family: $common-font;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+
+  color: $white;
+}
