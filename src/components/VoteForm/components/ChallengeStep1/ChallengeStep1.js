@@ -5,7 +5,8 @@ import CustomInput from '../../../generic/CustomInput';
 import CustomBtn from '../../../generic/CustomBtn';
 
 const ChallengeStep1 = ({ data }) => {
-  const { numOfORP, setNumOfORP, submitVote } = data;
+  const { isActiveAlert, numOfOPP, setNumOfOPP, submitVote, escalationPeriod } =
+    data;
   return (
     <div className="project__validate-wrapper project__challenge-wrapper">
       <div className="project__challenge-title">
@@ -14,8 +15,11 @@ const ChallengeStep1 = ({ data }) => {
         </div>
         <span className="project__challenge-text">
           <b>
-            You can challenge the Validation resolution in case you believe it’s
-            incorrect.
+            You can{' '}
+            {escalationPeriod
+              ? 'escalate another challenge'
+              : 'challenge the Validation'}{' '}
+            resolution in case you believe it’s incorrect.
           </b>{' '}
           The Challenge wins and the resolution changes to opposite in case the
           total Challenge stake surpasses the original Validation stake.
@@ -26,10 +30,11 @@ const ChallengeStep1 = ({ data }) => {
           labelText="Amount"
           classInput="project__validate-input"
           classLabel="project__validate-label"
-          backgroundText="ORP"
+          backgroundText="OPP"
           backgroundTextClass="project__validate-back"
-          change={setNumOfORP}
-          value={numOfORP}
+          change={setNumOfOPP}
+          value={numOfOPP}
+          warningMessage={isActiveAlert && 'Enter amount of OPP!'}
         />
         <CustomBtn
           label="Submit Vote"

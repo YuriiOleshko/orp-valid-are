@@ -60,6 +60,7 @@ const ProjectValidation = () => {
       setStakingFinished(false);
       setValidationFinished(true);
     }
+    return () => clearTimeout(timeOut);
   });
 
   return (
@@ -77,6 +78,7 @@ const ProjectValidation = () => {
             data={{ ...data }}
             affirmedText="Stage Report AFFIRMED"
             deniedText="Stage Report DENIED."
+            validationPeriod
           />
         ) : (
           <Ongoing

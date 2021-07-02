@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import CustomInput from '../../../generic/CustomInput';
@@ -5,8 +6,9 @@ import CustomBtn from '../../../generic/CustomBtn';
 
 const ValidationStep1 = ({ data }) => {
   const {
-    numOfORP,
-    setNumOfORP,
+    isActiveAlert,
+    numOfOPP,
+    setNumOfOPP,
     affirmDataUpload,
     stakingFinished,
     denyDataUpload,
@@ -18,23 +20,22 @@ const ValidationStep1 = ({ data }) => {
         labelText="Amount"
         classInput="project__validate-input"
         classLabel="project__validate-label"
-        backgroundText="ORP"
+        backgroundText="OPP"
         backgroundTextClass="project__validate-back"
-        change={setNumOfORP}
-        value={numOfORP}
+        change={setNumOfOPP}
+        value={numOfOPP}
+        warningMessage={isActiveAlert && 'Enter amount of OPP!'}
       />
       <div className="project__validate-buttons">
         <CustomBtn
           label="Affirm"
           handleClick={affirmDataUpload}
           customClass="btn__affirm"
-          disabled={stakingFinished}
         />
         <CustomBtn
           label="Deny"
           handleClick={denyDataUpload}
           customClass="btn__deny"
-          disabled={stakingFinished}
         />
       </div>
     </div>

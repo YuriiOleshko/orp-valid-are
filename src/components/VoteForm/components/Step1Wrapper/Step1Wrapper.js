@@ -5,23 +5,34 @@ import ValidationStep1 from '../ValidationStep1';
 
 const Step1Wrapper = ({ data }) => {
   const {
+    isActiveAlert,
     challengePeriod,
-    numOfORP,
-    setNumOfORP,
+    numOfOPP,
+    setNumOfOPP,
     submitVote,
     affirmDataUpload,
     stakingFinished,
     denyDataUpload,
+    escalationPeriod,
   } = data;
   return (
     <>
       {challengePeriod ? (
-        <ChallengeStep1 data={{ numOfORP, setNumOfORP, submitVote }} />
+        <ChallengeStep1
+          data={{
+            isActiveAlert,
+            numOfOPP,
+            setNumOfOPP,
+            submitVote,
+            escalationPeriod,
+          }}
+        />
       ) : (
         <ValidationStep1
           data={{
-            numOfORP,
-            setNumOfORP,
+            isActiveAlert,
+            numOfOPP,
+            setNumOfOPP,
             affirmDataUpload,
             stakingFinished,
             denyDataUpload,

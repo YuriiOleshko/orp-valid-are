@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import CustomDatePicker from '../../../components/generic/CustomDatePicker';
@@ -28,6 +28,8 @@ const challengeStatus = ['Resolved', 'Open'];
 const Filter = () => {
   const page = useContext(Page);
   const intl = useIntl();
+  const [projectValue, setProjectValue] = useState('');
+  const [locationValue, setLocationValue] = useState('');
   return (
     <>
       <CustomInput
@@ -35,11 +37,15 @@ const Filter = () => {
         labelText={intl.formatMessage(projectLabel)}
         labelIcon="icon-filter-validator"
         classInputWrapper="filter-project"
+        change={setProjectValue}
+        value={projectValue}
       />
       <CustomInput
         placeholder={intl.formatMessage(locationPlaceholder)}
         labelText={intl.formatMessage(locationLabel)}
         classInputWrapper="filter-location"
+        change={setLocationValue}
+        value={locationValue}
       />
       <CustomSelect
         placeholder={intl.formatMessage(stagePlaceholder)}

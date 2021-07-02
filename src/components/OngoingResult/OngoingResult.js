@@ -8,8 +8,10 @@ const OngoingResult = ({
   data,
   affirmedText,
   deniedText,
+  validationPeriod,
   challengePeriod,
   escalationPeriod,
+  setTypeOfModal,
 }) => {
   const { openDate, closeDate, affirmed } = data;
 
@@ -31,40 +33,41 @@ const OngoingResult = ({
           <span className="project__ongoing-result-title">
             {affirmed ? affirmedText : deniedText}
           </span>
-          {challengePeriod ? (
-            <span className="project__ongoing-result-message">
-              {`Validation resolution stake ${
-                affirmed ? 'has' : 'has not'
-              } been surpassed`}
-            </span>
-          ) : (
-            <span className="project__ongoing-result-info">
-              187 Validators Voted
-            </span>
+          {validationPeriod && (
+            <>
+              <span className="project__ongoing-result-info">
+                187 Validators Voted
+              </span>
+              <span className="project__ongoing-result-time">
+                <span>
+                  <b>Open</b> {formattedDate(openDate, '.')}{' '}
+                  {convertDateToHours(closeDate, ':')}
+                </span>
+                <span>
+                  <b>Close</b> {formattedDate(closeDate, '.')}{' '}
+                  {convertDateToHours(closeDate, ':')}
+                </span>
+              </span>
+            </>
           )}
-          {challengePeriod ? (
-            escalationPeriod ? (
-              <CustomBtn
-                customClass="btn__escalation"
-                label="View Validation Stats"
-                handleClick={() => {}}
-              />
-            ) : (
+          {challengePeriod && (
+            <>
+              <span className="project__ongoing-result-message">
+                {`Validation resolution stake ${
+                  affirmed ? 'has' : 'has not'
+                } been surpassed`}
+              </span>
               <span className="project__ongoing-result-message">
                 <b>13 Validators Voted</b>
               </span>
-            )
-          ) : (
-            <span className="project__ongoing-result-time">
-              <span>
-                <b>Open</b> {formattedDate(openDate, '.')}{' '}
-                {convertDateToHours(closeDate, ':')}
-              </span>
-              <span>
-                <b>Close</b> {formattedDate(closeDate, '.')}{' '}
-                {convertDateToHours(closeDate, ':')}
-              </span>
-            </span>
+            </>
+          )}
+          {escalationPeriod && (
+            <CustomBtn
+              customClass="btn__escalation"
+              label="View Validation Stats"
+              handleClick={() => setTypeOfModal('general')}
+            />
           )}
         </div>
       </div>
@@ -76,8 +79,10 @@ OngoingResult.propTypes = {
   data: PropTypes.object,
   affirmedText: PropTypes.string,
   deniedText: PropTypes.string,
+  validationPeriod: PropTypes.bool,
   challengePeriod: PropTypes.bool,
   escalationPeriod: PropTypes.bool,
+  setTypeOfModal: PropTypes.func,
 };
 
 export default OngoingResult;

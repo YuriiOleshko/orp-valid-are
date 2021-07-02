@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import CustomBtn from '../../../generic/CustomBtn';
 
 function ChallengeStep2({ data }) {
-  const { stakingFinished, confirmVote, cancelVote } = data;
+  const { stakingFinished, confirmVote, cancelVote, affirmed, numOfOPP } = data;
   return stakingFinished ? (
     <div className="vote_form">
       <div className="vote_form__info">
@@ -13,7 +13,10 @@ function ChallengeStep2({ data }) {
             Your Challenge vote successfully submitted!
           </span>
           <span className="vote_form__text">
-            <b>120 ORP against Stage Report DENIED</b>
+            <b>
+              {numOfOPP} OPP against Stage Report{' '}
+              {affirmed ? 'AFFIRMED' : 'DENIED'}
+            </b>
           </span>
         </div>
         <div className="vote__select vote__norevoke">
@@ -32,7 +35,8 @@ function ChallengeStep2({ data }) {
           </span>
           <span className="vote_form__text">
             Your stake will remain locked until the Data Upload validation is
-            completed! 120 ORP against Stage Report AFFIRMED.
+            completed! {numOfOPP} OPP against Stage Report{' '}
+            {affirmed ? 'AFFIRMED' : 'DENIED'}.
           </span>
           <span className="vote_form__text">
             <b>Are you sure you want to continue?</b>

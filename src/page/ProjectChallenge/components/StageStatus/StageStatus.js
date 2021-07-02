@@ -27,7 +27,7 @@ function StageStatus({ affirmed }) {
     <div className={`project__status ${statusValue().class}`}>
       <span className="project__status__text">
         Validation resolution: Stage Report {statusValue().text} Your Validation
-        stake: 120 ORP
+        stake: 120 OPP
       </span>
     </div>
   );

@@ -8,8 +8,10 @@ const ValidationStep3 = ({
   titleFail,
   buttonText,
   clickHandler,
+  vote,
+  challengePeriod,
 }) => {
-  const { affirmed, numOfORP, escalationPeriod } = data;
+  const { affirmed, numOfOPP, escalationPeriod } = data;
   return (
     <div
       className={`project__validate-wrapper wrapper-step2 ${
@@ -17,24 +19,31 @@ const ValidationStep3 = ({
       }`}
     >
       <h2 className="project__validate-title title-step2">
-        {affirmed ? (
+        {affirmed === vote ? (
           <>
             <span>Congratulations!</span>
-            <p>{titleSuccess}</p>
+            <p>
+              {challengePeriod && titleSuccess}
+              {!challengePeriod && (vote ? titleSuccess : titleFail)}
+            </p>
           </>
         ) : (
-          <span>{titleFail}</span>
+          <span>
+            {challengePeriod && `Unfortunately, ${titleFail}`}
+            {!challengePeriod &&
+              `Unfortunately, ${vote ? titleSuccess : titleFail}`}
+          </span>
         )}
       </h2>
       <span className="project__validate-result">
-        {affirmed ? (
+        {affirmed === vote ? (
           <>
-            Your vote stake {+numOfORP || 100} ORP will remain locked until
+            Your vote stake {+numOfOPP || 100} OPP will remain locked until
             stage resolution is confirmed.
           </>
         ) : (
           <>
-            Your {+numOfORP || 100} ORP stake has been unlocked and returned to
+            Your {+numOfOPP || 100} OPP stake has been unlocked and returned to
             your balance!
           </>
         )}
@@ -58,6 +67,8 @@ ValidationStep3.propTypes = {
   titleFail: PropTypes.string,
   buttonText: PropTypes.string,
   clickHandler: PropTypes.func,
+  vote: PropTypes.bool,
+  challengePeriod: PropTypes.bool,
 };
 
 export default ValidationStep3;

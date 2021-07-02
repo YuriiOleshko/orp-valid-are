@@ -6,7 +6,7 @@ import DigitCountdown from '../../../../page/ProjectValidation/components/DigitC
 const ValidationStep2 = ({ data }) => {
   const {
     isRevoked,
-    numOfORP,
+    numOfOPP,
     voteResult,
     stakingFinished,
     changeVote,
@@ -21,7 +21,7 @@ const ValidationStep2 = ({ data }) => {
             <span>Your vote successfully revoked!</span>
             <p>
               <b>
-                {+numOfORP} ORP stake has been unlocked and returned to your
+                {+numOfOPP} OPP stake has been unlocked and returned to your
                 balance!
               </b>
             </p>
@@ -31,7 +31,7 @@ const ValidationStep2 = ({ data }) => {
             <span>Your vote successfully submited!</span>
             <p>
               <b>
-                {+numOfORP || 100} ORP – Data Upload{' '}
+                {+numOfOPP || 100} OPP – Data Upload{' '}
                 {voteResult ? 'AFFIRMED' : 'DENIED'}
               </b>
             </p>

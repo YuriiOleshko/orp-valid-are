@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import CustomBtn from '../../../generic/CustomBtn';
 
 const ChallengeStep3 = ({ data }) => {
-  const { affirmed, numOfORP, setEscalationPeriod } = data;
+  const { affirmed, numOfOPP, setEscalationPeriod } = data;
   return (
     <div className="project__validate-wrapper wrapper-step2">
       <h2 className="project__validate-title title-step2">
@@ -19,12 +19,12 @@ const ChallengeStep3 = ({ data }) => {
       <span className="project__validate-result">
         {affirmed ? (
           <>
-            Your vote stake {+numOfORP || 100} ORP will remain locked until
+            Your vote stake {+numOfOPP || 100} OPP will remain locked until
             stage resolution is confirmed.
           </>
         ) : (
           <>
-            Your {+numOfORP || 100} ORP stake has been unlocked and returned to
+            Your {+numOfOPP || 100} OPP stake has been unlocked and returned to
             your balance!
           </>
         )}

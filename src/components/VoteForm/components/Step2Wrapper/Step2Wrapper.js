@@ -6,7 +6,7 @@ import ValidationStep2 from '../ValidationStep2';
 const Step2Wrapper = ({ data }) => {
   const {
     challengePeriod,
-    numOfORP,
+    numOfOPP,
     stakingFinished,
     confirmVote,
     cancelVote,
@@ -19,12 +19,14 @@ const Step2Wrapper = ({ data }) => {
   return (
     <>
       {challengePeriod ? (
-        <ChallengeStep2 data={{ stakingFinished, confirmVote, cancelVote }} />
+        <ChallengeStep2
+          data={{ ...data, stakingFinished, confirmVote, cancelVote, numOfOPP }}
+        />
       ) : (
         <ValidationStep2
           data={{
             isRevoked,
-            numOfORP,
+            numOfOPP,
             voteResult,
             stakingFinished,
             changeVote,

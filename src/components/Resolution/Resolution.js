@@ -37,7 +37,7 @@ function Resolution({ affirmed, period }) {
           {period} window: <b>11.12.2021 – 11.01.2022</b>
         </span>
         <span className="resolution__text">
-          Your {period} stake: <b>120 ORP</b>
+          Your {period} stake: <b>120 OPP</b>
         </span>
         <span className="resolution__text ">
           Validators voted: <b>13</b>

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useMemo } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Ongoing from '../../../../components/Ongoing';
@@ -12,6 +12,7 @@ import StageReport from '../../../../components/StageReport';
 import StageStatus from '../StageStatus';
 import Resolution from '../../../../components/Resolution';
 import ValidationResult from '../ValidationResult';
+import ValidationStats from '../ValidationStats';
 
 import fullTree1 from '../../../../assets/image/trees/fullTree1.svg';
 import fullTree2 from '../../../../assets/image/trees/fullTree2.svg';
@@ -44,39 +45,49 @@ const ProjectEscalation = ({ data }) => {
     numOfEscalation,
   } = data;
 
+  const [typeOfModal, setTypeOfModal] = useState('');
   const arrOfResolution = new Array(numOfEscalation).fill(1);
 
-  return numOfEscalation === 3 ? (
+  return numOfEscalation >= 3 ? (
     <div className="project">
-      <div className="project__header">
-        <div>
-          <h2 className="project__header-subtitle">Project name</h2>
-          <h1 className="project__header-title">{name}</h1>
-        </div>
-        <StageReport />
-      </div>
-      <div className="project__body">
-        <div className="project__validation-info">
-          {validationFinished && (
-            <VoteInfo
-              validationFinished={validationFinished}
-              finishedTitle="Stage Report Validated!"
-              treeHeight={0}
-              growTree={randomTreeImage[1]}
-              afterTree={randomTreeImage[2]}
-              affirmed={affirmed}
-            />
-          )}
-          <OngoingResult
-            data={{ ...data }}
-            affirmedText="Resolution: AFFIRMED!"
-            deniedText="Resolution: DENIED"
-            challengePeriod
-            escalationPeriod
-          />
-        </div>
-        <ValidationResult />
-      </div>
+      {typeOfModal ? (
+        <ValidationStats
+          typeOfModal={typeOfModal}
+          setTypeOfModal={setTypeOfModal}
+        />
+      ) : (
+        <>
+          <div className="project__header">
+            <div>
+              <h2 className="project__header-subtitle">Project name</h2>
+              <h1 className="project__header-title">{name}</h1>
+            </div>
+            <StageReport />
+          </div>
+          <div className="project__body">
+            <div className="project__validation-info">
+              {validationFinished && (
+                <VoteInfo
+                  validationFinished={validationFinished}
+                  finishedTitle="Stage Report Validated!"
+                  treeHeight={0}
+                  growTree={randomTreeImage[1]}
+                  afterTree={randomTreeImage[2]}
+                  affirmed={affirmed}
+                />
+              )}
+              <OngoingResult
+                data={{ ...data }}
+                affirmedText="Resolution: AFFIRMED!"
+                deniedText="Resolution: DENIED"
+                escalationPeriod
+                setTypeOfModal={setTypeOfModal}
+              />
+            </div>
+            <ValidationResult setTypeOfModal={setTypeOfModal} />
+          </div>
+        </>
+      )}
     </div>
   ) : (
     <div className="project">
@@ -92,7 +103,7 @@ const ProjectEscalation = ({ data }) => {
       {arrOfResolution.map((item, id) => (
         <Resolution
           period="Escalation"
-          affirmed={affirmed}
+          affirmed={id % 2 !== 0 && affirmed}
           key={Date.now() + id}
         />
       ))}

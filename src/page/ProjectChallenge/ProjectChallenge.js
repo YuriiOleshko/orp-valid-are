@@ -8,8 +8,8 @@ import Ongoing from '../../components/Ongoing';
 import OngoingResult from '../../components/OngoingResult/OngoingResult';
 import VoteInfo from '../../components/VoteInfo';
 import VoteForm from '../../components/VoteForm';
-import StageReport from '../../components/StageReport/StageReport';
-import StageStatus from './component/StageStatus/StageStatus';
+import StageReport from '../../components/StageReport';
+import StageStatus from './components/StageStatus';
 
 import fullTree1 from '../../assets/image/trees/fullTree1.svg';
 import fullTree2 from '../../assets/image/trees/fullTree2.svg';
@@ -20,7 +20,7 @@ import grownTree3 from '../../assets/image/trees/grownTree3.svg';
 import afterTree1 from '../../assets/image/trees/afterTree1.svg';
 import afterTree2 from '../../assets/image/trees/afterTree2.svg';
 import afterTree3 from '../../assets/image/trees/afterTree3.svg';
-import ProjectEscalation from './component/ProjectEscalation';
+import ProjectEscalation from './components/ProjectEscalation';
 
 const treeImages = [
   [fullTree1, grownTree1, afterTree1],
@@ -95,6 +95,7 @@ const ProjectChallenge = () => {
         }
       }
     }
+    return () => clearTimeout(timeOut);
   });
 
   return showPeriod ? (

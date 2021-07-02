@@ -48,7 +48,13 @@ const Countdown = ({
   return (
     <div className="project__ongoing-countdown">
       <div className="countdown" style={{ flexBasis: `${countdownWidth}%` }}>
-        <div className="countdown-wrapper">
+        <div
+          className={
+            countdownWidth <= 17
+              ? 'countdown-wrapper countdown-wrapper-fix'
+              : 'countdown-wrapper'
+          }
+        >
           <span className="countdown-title">Time left</span>
           <div className="countdown-value">{timerTime}</div>
         </div>

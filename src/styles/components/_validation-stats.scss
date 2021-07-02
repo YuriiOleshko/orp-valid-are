@@ -1,0 +1,187 @@
+.project__stats {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  right: 0;
+  border-radius: 8px;
+  background-color: $white;
+  color: $color-font;
+  margin-top: 40px;
+
+  &-wrapper {
+    padding: 40px;
+  }
+  &-btn-text {
+    margin-right: 16px;
+    font-size: 16px;
+  }
+  &-btn {
+    position: absolute;
+    display: flex;
+    align-items: baseline;
+    right: 40px;
+    padding: 0;
+    background-color: transparent;
+    .icon-fail {
+      font-size: 13px;
+    }
+    .icon-fail::before {
+      color: $lightBlue;
+    }
+  }
+  &-subtitle {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  &-title {
+    font-size: 28px;
+    font-weight: bold;
+  }
+  &-total-stake {
+    font-size: 28px;
+    margin-top: 20px;
+  }
+  &-total-validators {
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  &-affirm-validators {
+    margin-left: 20px;
+    span {
+      color: $confirmed;
+    }
+  }
+  &-deny-validators {
+    margin-left: 20px;
+    span {
+      color: $denied;
+    }
+  }
+  &-list {
+    margin-top: 20px;
+    font-size: 16px;
+  }
+  &-list-header {
+    display: flex;
+    margin-bottom: 10px;
+    color: $color-font-copy;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    padding-left: 54px;
+  }
+  .header-address {
+    &-general, &-challenge, &-validation {
+      flex: 4;
+    }
+  }
+  .header-stake {
+    &-general {
+      flex: 1;
+    }
+    &-challenge {
+      flex: 2;
+    }
+    &-validation {
+      flex: 2;
+    }
+  }
+  .header-vote {
+    &-validation {
+      flex: 2;
+    }
+  }
+  .header-share {
+    &-general {
+      flex: 1.5;
+    }
+  }
+  .header-value {
+    &-general {
+      flex: 2;
+    }
+  }
+  &-list-body {
+    height: 600px;
+    overflow: auto;
+    &::-webkit-scrollbar { width: 6px; height: 3px;}
+    //&::-webkit-scrollbar-track {  background-color: blue;}
+    &::-webkit-scrollbar-thumb { height: 20px; background-color: greenyellow; border-radius: 3px;}
+  }
+  .list-item {
+    position: relative;
+    display: flex;
+    padding: 20px 20px 20px 54px;
+    border-radius: 8px;
+  }
+  .list-item:nth-child(even) {
+    background: $white;
+  }
+  .list-item:nth-child(odd) {
+    background: $color-bg-menu;
+  }
+  .item-number {
+    position: absolute;
+    left: 20px;
+  }
+  .item-link {
+    position: absolute;
+    right: 20px;
+    color: $lightBlue;
+    text-transform: uppercase;
+    border-bottom: 1px solid $lightBlue;
+  }
+  .item-address {
+    &-general, &-validation, &-challenge {
+      flex: 4;
+      overflow: auto;
+      margin-right: 10px;
+      &::-webkit-scrollbar { width: 3px; height: 3px;}
+      //&::-webkit-scrollbar-track {  background-color: blue;}
+      &::-webkit-scrollbar-thumb { height: 20px; background-color: greenyellow; border-radius: 3px;}
+    }
+  }
+  .item-stake {
+    &-general {
+      flex: 1;
+    }
+    &-validation {
+      flex: 2;
+      span {
+        margin-left: 5px;
+      }
+    }
+    &-challenge {
+      flex: 2;
+      span {
+        margin-left: 10px;
+      }
+    }
+  }
+  .item-vote {
+    &-validation {
+      flex: 2;
+      span {
+        margin-left: 15px;
+      }
+    }
+  }
+  .item-share {
+    &-general {
+      flex: 1.5;
+      span {
+        margin-left: 10px;
+      }
+    }
+  }
+  .item-value {
+    &-general {
+      flex: 2;
+      span {
+        margin-left: 15px;
+      }
+    }
+  }
+}

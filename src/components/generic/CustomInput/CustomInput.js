@@ -13,6 +13,8 @@ const CustomInput = ({
   backgroundTextClass,
   change,
   /* eslint-disable react/prop-types */
+  warningMessage,
+  /* eslint-disable react/prop-types */
   /* value can be as string, as number */
   value,
 }) => {
@@ -27,6 +29,9 @@ const CustomInput = ({
       )}
       {backgroundText && (
         <label className={backgroundTextClass}>{backgroundText}</label>
+      )}
+      {warningMessage && (
+        <label className="input-warning">{warningMessage}</label>
       )}
       <input
         type={inputType}

@@ -1,5 +1,5 @@
 .vote_form {
-  border: 4px solid #2EC3E9;
+  border: 4px solid $lightBlue;
   padding: 20px 40px 40px 40px;
   background: $white;
   border-radius: 8px;
@@ -61,7 +61,7 @@
   padding: 18px 0;
   width: 100%;
   max-width: 680px;
-  background-color: #D5F3FB;
+  background-color: $color-bg-menu;
   border-radius: 18px;
   font-size: 18px;
   font-weight: 700;

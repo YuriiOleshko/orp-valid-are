@@ -6,27 +6,31 @@ import ValidationStep3 from '../ValidationStep3';
 const Step3Wrapper = ({ data }) => {
   const {
     challengePeriod,
-    numOfORP,
+    numOfOPP,
     escalationPeriod,
     setEscalationPeriod,
     name,
+    validationVote,
+    challengeVote,
   } = data;
   const history = useHistory();
   return (
     <>
       {challengePeriod ? (
         <ValidationStep3
-          data={{ ...data, numOfORP, setEscalationPeriod, escalationPeriod }}
+          data={{ ...data, numOfOPP, setEscalationPeriod, escalationPeriod }}
           titleSuccess="Your challenge is SUCCESSFUL!"
-          titleFail="Unfortunately, your challenge FAILED!"
+          titleFail="Your challenge FAILED!"
           buttonText="Go To Escalation"
           clickHandler={() => setEscalationPeriod(true)}
+          vote={challengeVote}
+          challengePeriod
         />
       ) : (
         <ValidationStep3
-          data={{ ...data, numOfORP, setEscalationPeriod }}
+          data={{ ...data, numOfOPP, setEscalationPeriod }}
           titleSuccess="You have AFFIRMED this Stage Upload!"
-          titleFail="Unfortunately, you voted to DENY this Stage Upload!"
+          titleFail="You voted to DENY this Stage Upload!"
           buttonText="Go To Challenge"
           clickHandler={() =>
             history.push({
@@ -34,6 +38,7 @@ const Step3Wrapper = ({ data }) => {
               state: { data },
             })
           }
+          vote={validationVote}
         />
       )}
     </>

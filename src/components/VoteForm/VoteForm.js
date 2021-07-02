@@ -17,13 +17,16 @@ const VoteForm = ({
 }) => {
   const { closeDate, openDate, timeLeft } = data;
 
-  const [numOfORP, setNumOfORP] = useState();
+  const [numOfOPP, setNumOfOPP] = useState();
   const [voteResult, setVoteResult] = useState();
   const [step, setStep] = useState(1);
   const [isRevoked, setIsRevoked] = useState(false);
+  const [isActiveAlert, setIsActiveAlert] = useState(false);
 
   if (stakingFinished && step !== 2) {
-    setStep(2);
+    if (voteResult === true || voteResult === false) {
+      setStep(2);
+    }
   }
 
   if (validationFinished && step !== 3) {
@@ -31,16 +34,22 @@ const VoteForm = ({
   }
 
   const affirmDataUpload = () => {
-    if (+numOfORP > 0) {
+    if (+numOfOPP > 0) {
+      setIsActiveAlert(false);
       setVoteResult(true);
       setStep((prev) => prev + 1);
+    } else {
+      setIsActiveAlert(true);
     }
   };
 
   const denyDataUpload = () => {
-    if (+numOfORP > 0) {
+    if (+numOfOPP > 0) {
+      setIsActiveAlert(false);
       setVoteResult(false);
       setStep((prev) => prev + 1);
+    } else {
+      setIsActiveAlert(true);
     }
   };
 
@@ -54,7 +63,12 @@ const VoteForm = ({
   };
 
   const submitVote = () => {
-    setStep((prev) => prev + 1);
+    if (+numOfOPP > 0) {
+      setIsActiveAlert(false);
+      setStep((prev) => prev + 1);
+    } else {
+      setIsActiveAlert(true);
+    }
   };
 
   const confirmVote = () => {
@@ -74,21 +88,24 @@ const VoteForm = ({
       {step === 1 && (
         <Step1Wrapper
           data={{
+            isActiveAlert,
             challengePeriod,
-            numOfORP,
-            setNumOfORP,
+            numOfOPP,
+            setNumOfOPP,
             submitVote,
             affirmDataUpload,
             stakingFinished,
             denyDataUpload,
+            escalationPeriod,
           }}
         />
       )}
       {step === 2 && (
         <Step2Wrapper
           data={{
+            ...data,
             challengePeriod,
-            numOfORP,
+            numOfOPP,
             stakingFinished,
             confirmVote,
             cancelVote,
@@ -104,7 +121,7 @@ const VoteForm = ({
         <Step3Wrapper
           data={{
             ...data,
-            numOfORP,
+            numOfOPP,
             challengePeriod,
             escalationPeriod,
             setEscalationPeriod,
