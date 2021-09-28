@@ -15,6 +15,7 @@ const Step2Wrapper = ({ data }) => {
     changeVote,
     revokeVote,
     timeLeft,
+    voteAgain,
   } = data;
   return (
     <>
@@ -32,6 +33,7 @@ const Step2Wrapper = ({ data }) => {
             changeVote,
             revokeVote,
             timeLeft,
+            voteAgain,
           }}
         />
       )}

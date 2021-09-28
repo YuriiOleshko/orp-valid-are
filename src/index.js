@@ -4,13 +4,16 @@ import { BrowserRouter } from 'react-router-dom';
 import MultiLangWrapper from './components/MultiLangWrapper';
 import Main from './Main';
 import reportWebVitals from './reportWebVitals';
+import { AppProvider } from './state/app';
 
 ReactDOM.render(
-  <BrowserRouter>
-    <MultiLangWrapper>
-      <Main />
-    </MultiLangWrapper>
-  </BrowserRouter>,
+  <AppProvider>
+    <BrowserRouter>
+      <MultiLangWrapper>
+        <Main />
+      </MultiLangWrapper>
+    </BrowserRouter>
+  </AppProvider>,
   document.getElementById('root'),
 );
 

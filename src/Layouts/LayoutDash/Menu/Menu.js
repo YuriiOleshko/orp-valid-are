@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { FormattedDate, useIntl } from 'react-intl';
-import PropTypes from 'prop-types';
 
 import {
   ongoingValid,
@@ -12,7 +11,7 @@ import {
   copyRight,
 } from './LangMenu';
 
-const Menu = ({ data }) => {
+const Menu = () => {
   const intl = useIntl();
   const { pathname } = useLocation();
   const [name] = pathname.split('/').splice(-1);
@@ -26,7 +25,7 @@ const Menu = ({ data }) => {
               className="menu__item"
               activeClassName="active"
               exact
-              to={{ pathname: `/project/validation/${name}`, state: { data } }}
+              to={`/project/validation/${name}`}
             >
               <i className="icon-charning" />
               {intl.formatMessage(ongoingValid)}
@@ -35,7 +34,7 @@ const Menu = ({ data }) => {
               className="menu__item"
               activeClassName="active"
               exact
-              to={{ pathname: `/project/challenge/${name}`, state: { data } }}
+              to={`/project/challenge/${name}`}
             >
               <i className="icon-shield" />
               {intl.formatMessage(ongoingChallanges)}
@@ -76,10 +75,6 @@ const Menu = ({ data }) => {
       </div>
     </div>
   );
-};
-
-Menu.propTypes = {
-  data: PropTypes.object,
 };
 
 export default Menu;

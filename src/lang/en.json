@@ -1,4 +1,20 @@
 {
+    "login.button": "Login with the NEAR Wallet",
+    "login.copy": "© Open Reforestation Protocol Foundation, ",
+    "login.title": "Let’s Reforest the Planet!",
+    "login.sub-title": "I don’t have a NEAR wallet",
+    "login.tooltip": "Don’t have a NEAR wallet? Go ahead and click the button above to get started! All you need to do is select “Create a New Account” from the dropdown menu.",
+  
+    "acc.title": "Setup Your Account",
+    "acc.input-name": "First Name",
+    "acc.input-last": "Last Name",
+    "acc.input-company": "Name of Organization",
+    "acc.input-email": "E-mail",
+    "acc.input-pas": "Password",
+    "acc.input-repas": "Repeat Password",
+    "acc.btn-label": "Setup Dashboard",
+    "acc.btn-label-later": "Setup Later",
+
     "header.navbar": "Project Validation",
     "header.login": "Log In",
 

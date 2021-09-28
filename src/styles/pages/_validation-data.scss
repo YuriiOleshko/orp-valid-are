@@ -1,4 +1,10 @@
 .validation {
+    &__loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 70vh;
+    }
     &__filter {
         display: flex;
         justify-content: space-between;

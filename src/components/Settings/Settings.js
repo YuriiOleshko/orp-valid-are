@@ -1,10 +1,10 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import CustomBtn from '../generic/CustomBtn/CustomBtn';
 
-function Settings() {
+function Settings({ wallet, userName }) {
   const [visibilyty, setVisibilyty] = useState(false);
 
-  const userName = 'Johny Cage';
   return (
     <div className="settings">
       <span className="settings__name">{userName}</span>
@@ -30,7 +30,7 @@ function Settings() {
           <CustomBtn
             label={<b>Log out</b>}
             customClass="settings__drop-down__item"
-            handleClick={() => {}}
+            handleClick={() => wallet.signOut()}
           />
         </div>
       </div>

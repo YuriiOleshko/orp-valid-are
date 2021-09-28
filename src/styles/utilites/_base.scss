@@ -1,8 +1,7 @@
 body {
     position: relative;
-    // @include theme-aware('color', 'body-color-font');
-    // @include theme-aware('background-color', 'color-background');
-    background-color: $color-bg-input;
+    @include theme-aware('color', 'body-color-font');
+    @include theme-aware('background-color', 'color-background');
     font-family: $common-font;
     line-height: 1.2;
 }
@@ -56,6 +55,7 @@ p {
   cursor: pointer;
   border: none;
   border-radius: 6px;
+  @include theme-aware('border-color', 'border-btn-transparent');
 
   &__load {
     font-size: 18px;
@@ -81,5 +81,38 @@ p {
     color: $white;
     padding: 8px 0px;
     margin-top: 20px;
+  }
+
+  &__login, &__acc {
+    padding: 17px 10px;
+    background-color: $lightBlue;
+    border: 1px solid $lightBlue;
+    width: 100%;
+    color: $white;
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: $second-font;
+
+    &:hover {
+      @include theme-aware('background', 'color-bg-btn-active');
+    }
+  
+    &:active {
+      @include theme-aware('background', 'color-bg-btn-active');
+    }
+
+    & i{
+      font-size: 28px;
+      margin-right: 17px;
+    }
+
+  }
+
+  &__acc {
+    border: none;
+    padding: 10px;
   }
 }

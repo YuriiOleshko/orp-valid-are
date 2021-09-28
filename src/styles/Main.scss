@@ -1,5 +1,9 @@
-// utilites
 @import "./utilites/variables";
+@import "./themes/color-palette";
+
+// Mixins
+@import "./mixins/theme-aware";
+
 @import "./utilites/icons";
 @import "./utilites/base";
 
@@ -24,8 +28,10 @@
 @import "./components/resolution";
 @import "./components/validation-stats";
 @import "./components/settings";
+@import "./components/loader";
 
 //pages
 @import "./pages/project-page";
 @import "./pages/validation-data";
 @import "./pages/timeline";
+@import "./pages/login";

@@ -9,9 +9,10 @@ const Step3Wrapper = ({ data }) => {
     numOfOPP,
     escalationPeriod,
     setEscalationPeriod,
-    name,
+    id,
     validationVote,
     challengeVote,
+    voteResult,
   } = data;
   const history = useHistory();
   return (
@@ -28,14 +29,14 @@ const Step3Wrapper = ({ data }) => {
         />
       ) : (
         <ValidationStep3
-          data={{ ...data, numOfOPP, setEscalationPeriod }}
+          data={{ ...data, numOfOPP, setEscalationPeriod, voteResult }}
           titleSuccess="You have AFFIRMED this Stage Upload!"
           titleFail="You voted to DENY this Stage Upload!"
           buttonText="Go To Challenge"
           clickHandler={() =>
             history.push({
-              pathname: `/project/challenge/${name}`,
-              state: { data },
+              pathname: `/project/challenge/${id}`,
+              // state: { data },
             })
           }
           vote={validationVote}

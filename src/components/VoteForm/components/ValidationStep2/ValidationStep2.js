@@ -12,6 +12,7 @@ const ValidationStep2 = ({ data }) => {
     changeVote,
     revokeVote,
     timeLeft,
+    voteAgain,
   } = data;
   return (
     <div className="project__validate-wrapper wrapper-step2">
@@ -50,7 +51,7 @@ const ValidationStep2 = ({ data }) => {
             {isRevoked ? (
               <CustomBtn
                 label="Vote Again"
-                handleClick={changeVote}
+                handleClick={voteAgain}
                 customClass="btn__load btn-step2"
               />
             ) : (

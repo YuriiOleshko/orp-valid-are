@@ -13,7 +13,7 @@ const OngoingResult = ({
   escalationPeriod,
   setTypeOfModal,
 }) => {
-  const { openDate, closeDate, affirmed } = data;
+  const { openDate, closeDate, affirmed, periodResult } = data;
 
   const ongoigStyle = `project__ongoing ${
     affirmed ? 'project__ongoing-affirmed' : 'project__ongoing-denied'
@@ -36,7 +36,8 @@ const OngoingResult = ({
           {validationPeriod && (
             <>
               <span className="project__ongoing-result-info">
-                187 Validators Voted
+                {periodResult.affirm_number + periodResult.deny_number}{' '}
+                Validators Voted
               </span>
               <span className="project__ongoing-result-time">
                 <span>

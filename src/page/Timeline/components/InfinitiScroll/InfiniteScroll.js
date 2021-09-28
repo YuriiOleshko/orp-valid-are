@@ -56,7 +56,12 @@ const InfiniteScroll = ({
       {/* <ScrollContainer> */}
       <div ref={scrollContainerRef} className="timeline__scrolling-wrapper">
         {items.map((i, index) => (
-          <ElementTree tree={i} index={index} currentlyTrees={currentlyTrees} />
+          <ElementTree
+            tree={i}
+            index={index}
+            currentlyTrees={currentlyTrees}
+            key={`${Date.now() + index}`}
+          />
         ))}
       </div>
     </ScrollContainer>

@@ -13,13 +13,13 @@ const Ongoing = ({
   title,
 }) => {
   const intl = useIntl();
-  const { openDate, closeDate, timeLeft } = data;
+  const { openDate, closeDate, timeLeft, lockTime } = data;
 
   return (
     <div className="project__ongoing">
       <h2 className="project__ongoing-title">{title}</h2>
       <Countdown
-        data={{ closeDate, openDate, timeLeft }}
+        data={{ closeDate, openDate, timeLeft, lockTime }}
         stakingFinished={stakingFinished}
         setStakingFinished={setStakingFinished}
         showDeadline={showDeadline}

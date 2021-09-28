@@ -1,10 +1,14 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
+import { appStore } from '../../state/app';
+import { GAS, parseNearAmount } from '../../state/near';
 
 import Step1Wrapper from './components/Step1Wrapper';
 import Step2Wrapper from './components/Step2Wrapper';
 import Step3Wrapper from './components/Step3Wrapper';
+import { contractMethods, getContract } from '../../utils/near-utils';
 
 const VoteForm = ({
   data,
@@ -14,52 +18,150 @@ const VoteForm = ({
   challengePeriod,
   escalationPeriod,
   setEscalationPeriod,
+  setUserVote,
 }) => {
-  const { closeDate, openDate, timeLeft } = data;
+  const {
+    closeDate,
+    openDate,
+    timeLeft,
+    affirmed,
+    stake,
+    userStake,
+    userVote,
+    currentStage,
+    currentPeriod,
+    isRevoked,
+    setIsRevoked,
+    validationVote,
+  } = data;
 
-  const [numOfOPP, setNumOfOPP] = useState();
-  const [voteResult, setVoteResult] = useState();
+  const { state, update } = useContext(appStore);
+  const { account } = state;
+  const location = useLocation();
+  const [name] = location.pathname.split('/').splice(-1);
+
+  const [numOfOPP, setNumOfOPP] = useState(userStake);
+  const [voteResult, setVoteResult] = useState(userVote);
   const [step, setStep] = useState(1);
-  const [isRevoked, setIsRevoked] = useState(false);
   const [isActiveAlert, setIsActiveAlert] = useState(false);
 
-  if (stakingFinished && step !== 2) {
-    if (voteResult === true || voteResult === false) {
+  useEffect(() => {
+    if (validationFinished) {
+      setVoteResult(voteResult);
+      setNumOfOPP(numOfOPP);
+      setStep(3);
+      return;
+    }
+
+    if (stakingFinished) {
+      if (typeof voteResult === 'boolean') {
+        setStep(2);
+      }
+      return;
+    }
+
+    if (isRevoked) {
       setStep(2);
     }
-  }
 
-  if (validationFinished && step !== 3) {
-    setStep(3);
-  }
+    if (typeof voteResult === 'boolean') {
+      setVoteResult(voteResult);
+      setNumOfOPP(userStake);
+      setStep(2);
+    }
+  }, [validationFinished, stakingFinished, voteResult]);
 
-  const affirmDataUpload = () => {
+  const affirmDataUpload = async () => {
+    update('loading', true);
+    const deposit = parseNearAmount('1');
+    const contract = getContract(account, contractMethods, 0);
     if (+numOfOPP > 0) {
+      await contract.add_vote(
+        {
+          project_id: name,
+          stage_id: currentStage.id - 1,
+          period_id: currentPeriod.id,
+          vote: true,
+          stake: parseNearAmount(numOfOPP),
+        },
+        GAS,
+        deposit,
+      );
       setIsActiveAlert(false);
       setVoteResult(true);
       setStep((prev) => prev + 1);
     } else {
       setIsActiveAlert(true);
     }
+    update('loading', false);
   };
 
-  const denyDataUpload = () => {
+  const denyDataUpload = async () => {
+    update('loading', true);
+    const deposit = parseNearAmount('1');
+    const contract = getContract(account, contractMethods, 0);
     if (+numOfOPP > 0) {
+      await contract.add_vote(
+        {
+          project_id: name,
+          stage_id: currentStage.id - 1,
+          period_id: currentPeriod.id,
+          vote: false,
+          stake: parseNearAmount(numOfOPP),
+        },
+        GAS,
+        deposit,
+      );
+
       setIsActiveAlert(false);
       setVoteResult(false);
       setStep((prev) => prev + 1);
     } else {
       setIsActiveAlert(true);
     }
+    update('loading', false);
   };
 
-  const changeVote = () => {
+  const changeVote = async () => {
+    update('loading', true);
+    // const deposit = parseNearAmount('1');
+    const contract = getContract(account, contractMethods, 0);
+    await contract.revoke_vote(
+      {
+        project_id: name,
+        stage_id: currentStage.id - 1,
+        period_id: currentPeriod.id,
+      },
+      GAS,
+      // deposit,
+    );
     setIsRevoked(false);
+    setUserVote(undefined);
     setStep((prev) => prev - 1);
+    update('loading', false);
   };
 
-  const revokeVote = () => {
+  const revokeVote = async () => {
+    update('loading', true);
+    // const deposit = parseNearAmount('1');
+    const contract = getContract(account, contractMethods, 0);
+    await contract.revoke_vote(
+      {
+        project_id: name,
+        stage_id: currentStage.id - 1,
+        period_id: currentPeriod.id,
+      },
+      GAS,
+      // deposit,
+    );
+    setUserVote(undefined);
     setIsRevoked(true);
+    update('loading', false);
+  };
+
+  const voteAgain = () => {
+    setNumOfOPP(0);
+    setStep(1);
   };
 
   const submitVote = () => {
@@ -71,8 +173,17 @@ const VoteForm = ({
     }
   };
 
-  const confirmVote = () => {
+  const confirmVote = async () => {
+    update('loading', true);
+    const deposit = parseNearAmount('1');
+    const contract = getContract(account, contractMethods, 0);
+    await contract.vote(
+      { project_id: name, approve: true, stake: parseNearAmount(numOfOPP) },
+      GAS,
+      deposit,
+    );
     setStakingFinished(true);
+    update('loading', false);
   };
 
   const cancelVote = () => {
@@ -88,6 +199,7 @@ const VoteForm = ({
       {step === 1 && (
         <Step1Wrapper
           data={{
+            ...data,
             isActiveAlert,
             challengePeriod,
             numOfOPP,
@@ -114,6 +226,7 @@ const VoteForm = ({
             changeVote,
             revokeVote,
             timeLeft,
+            voteAgain,
           }}
         />
       )}
@@ -125,6 +238,8 @@ const VoteForm = ({
             challengePeriod,
             escalationPeriod,
             setEscalationPeriod,
+            validationVote,
+            voteResult,
           }}
         />
       )}
@@ -140,6 +255,9 @@ VoteForm.propTypes = {
   challengePeriod: PropTypes.bool,
   escalationPeriod: PropTypes.bool,
   setEscalationPeriod: PropTypes.func,
+  currentStage: PropTypes.object,
+  currentPeriod: PropTypes.object,
+  setUserVote: PropTypes.func,
 };
 
 export default VoteForm;

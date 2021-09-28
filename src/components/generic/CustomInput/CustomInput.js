@@ -17,6 +17,13 @@ const CustomInput = ({
   /* eslint-disable react/prop-types */
   /* value can be as string, as number */
   value,
+  uncontrolled,
+  error,
+  register,
+  required,
+  maxLength,
+  pattern,
+  name,
 }) => {
   const inputType = type || 'text';
   return (
@@ -30,17 +37,34 @@ const CustomInput = ({
       {backgroundText && (
         <label className={backgroundTextClass}>{backgroundText}</label>
       )}
-      {warningMessage && (
-        <label className="input-warning">{warningMessage}</label>
+      {uncontrolled ? (
+        <>
+          <input
+            type={inputType}
+            placeholder={placeholder}
+            className={`input ${classInput}`}
+            onWheel={(ev) => ev.target.blur()}
+            {...register(name, { required, maxLength, pattern })}
+          />
+          {error && (
+            <span className="input-warning">This field is required!</span>
+          )}
+        </>
+      ) : (
+        <>
+          {warningMessage && (
+            <label className="input-warning">{warningMessage}</label>
+          )}
+          <input
+            type={inputType}
+            placeholder={placeholder}
+            className={`input ${classInput}`}
+            onWheel={(ev) => ev.target.blur()}
+            value={value || ''}
+            onChange={(ev) => change(ev.target.value)}
+          />
+        </>
       )}
-      <input
-        type={inputType}
-        placeholder={placeholder}
-        className={`input ${classInput}`}
-        onWheel={(ev) => ev.target.blur()}
-        value={value || ''}
-        onChange={(ev) => change(ev.target.value)}
-      />
     </div>
   );
 };

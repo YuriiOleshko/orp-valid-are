@@ -24,7 +24,9 @@ export const convertDateToHours = (timestamp, divider) => {
 /* eslint-disable */
 export const getTimer = (timestamp) => {
   const days = Math.floor(timestamp / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((timestamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const hours = Math.floor(
+    (timestamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+  );
   const minutes = Math.floor((timestamp % (1000 * 60 * 60)) / (1000 * 60));
 
   return `${days}d ${hours}h ${minutes}m`;
@@ -34,10 +36,16 @@ export const getTimer = (timestamp) => {
 /* eslint-disable */
 export const getTimerInHours = (timestamp) => {
   const days = Math.floor(timestamp / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((timestamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const hours = Math.floor(
+    (timestamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+  );
   const totalHours = days * 24 + hours;
 
   const minutes = Math.floor((timestamp % (1000 * 60 * 60)) / (1000 * 60));
 
   return `${totalHours}h ${minutes}m`;
 };
+
+export const nanoToMicro = (timestamp) => {
+  return Math.floor(timestamp / 1e6)
+}

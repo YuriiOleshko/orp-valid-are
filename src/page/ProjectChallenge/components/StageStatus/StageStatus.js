@@ -1,9 +1,9 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import PropTypes from 'prop-types';
 
-function StageStatus({ affirmed }) {
+function StageStatus({ approve, stake }) {
   function statusValue() {
-    switch (affirmed) {
+    switch (approve) {
       case true:
         return {
           text: 'AFFIRMED',
@@ -27,14 +27,10 @@ function StageStatus({ affirmed }) {
     <div className={`project__status ${statusValue().class}`}>
       <span className="project__status__text">
         Validation resolution: Stage Report {statusValue().text} Your Validation
-        stake: 120 OPP
+        stake: {stake} OPP
       </span>
     </div>
   );
 }
-
-StageStatus.propTypes = {
-  affirmed: PropTypes.bool,
-};
 
 export default StageStatus;

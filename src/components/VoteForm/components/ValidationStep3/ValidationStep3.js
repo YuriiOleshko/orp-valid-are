@@ -11,7 +11,7 @@ const ValidationStep3 = ({
   vote,
   challengePeriod,
 }) => {
-  const { affirmed, numOfOPP, escalationPeriod } = data;
+  const { voteResult, numOfOPP, escalationPeriod } = data;
   return (
     <div
       className={`project__validate-wrapper wrapper-step2 ${
@@ -19,7 +19,7 @@ const ValidationStep3 = ({
       }`}
     >
       <h2 className="project__validate-title title-step2">
-        {affirmed === vote ? (
+        {voteResult === vote ? (
           <>
             <span>Congratulations!</span>
             <p>
@@ -36,7 +36,7 @@ const ValidationStep3 = ({
         )}
       </h2>
       <span className="project__validate-result">
-        {affirmed === vote ? (
+        {voteResult === vote ? (
           <>
             Your vote stake {+numOfOPP || 100} OPP will remain locked until
             stage resolution is confirmed.

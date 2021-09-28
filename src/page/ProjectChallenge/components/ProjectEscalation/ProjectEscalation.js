@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from 'react';
+import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 
 import Ongoing from '../../../../components/Ongoing';
@@ -33,7 +34,6 @@ const randomTreeImage = treeImages[Math.round(Math.random() * 2)];
 
 const ProjectEscalation = ({ data }) => {
   const {
-    name,
     openDate,
     closeDate,
     affirmed,
@@ -43,10 +43,16 @@ const ProjectEscalation = ({ data }) => {
     setStakingFinished,
     escalationPeriod,
     numOfEscalation,
+    userStake,
+    userVote,
+    arrOfResolution,
+    challengeVote,
+    validationVote,
   } = data;
 
+  const location = useLocation();
+  const [name] = location.pathname.split('/').splice(-1);
   const [typeOfModal, setTypeOfModal] = useState('');
-  const arrOfResolution = new Array(numOfEscalation).fill(1);
 
   return numOfEscalation >= 3 ? (
     <div className="project">
@@ -98,14 +104,10 @@ const ProjectEscalation = ({ data }) => {
         </div>
         <StageReport />
       </div>
-      <Resolution period="Validation" affirmed={affirmed} />
-      <Resolution period="Challenge" affirmed={affirmed} />
-      {arrOfResolution.map((item, id) => (
-        <Resolution
-          period="Escalation"
-          affirmed={id % 2 !== 0 && affirmed}
-          key={Date.now() + id}
-        />
+      <Resolution period="Validation" {...validationVote} />
+      <Resolution period="Challenge" {...challengeVote} />
+      {arrOfResolution.map((item, index) => (
+        <Resolution period="Escalation" {...item} key={Date.now() + index} />
       ))}
       <div className="project__body">
         {validationFinished ? (
@@ -135,7 +137,12 @@ const ProjectEscalation = ({ data }) => {
             />
           )}
           <VoteForm
-            data={{ ...data, timeLeft }}
+            data={{
+              ...data,
+              timeLeft,
+              userStake,
+              userVote,
+            }}
             stakingFinished={stakingFinished}
             setStakingFinished={setStakingFinished}
             validationFinished={validationFinished}

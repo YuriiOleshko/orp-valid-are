@@ -54,7 +54,8 @@
       position: absolute;
       content:'';
       width:100%;
-      height: 48px;
+      height: 24px;
+      top: 200px;
     }
     background: white;
 
@@ -68,11 +69,12 @@
       }
     }
     &:first-child{
-      padding-left: 41px;
+      padding-left: 0;
+      // padding-left: 41px;
       //width: 84px;
-      &:before{
-        background-image: url('/assets/image/trees/startEarth.png') ;
-      }
+      // &:before{
+      //   background-image: url('/assets/image/trees/startEarth.png') ;
+      // }
     }
     &:nth-child(even){
       background: $secondWhite;
@@ -86,7 +88,7 @@
 
   &__trees{
     img{
-      margin-bottom: 124px;
+      margin-bottom: 30px;
       object-fit: cover;
       height: 80px;
       z-index: 2;

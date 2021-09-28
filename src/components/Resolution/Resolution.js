@@ -1,15 +1,17 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable camelcase */
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import CustomBtn from '../generic/CustomBtn';
+import { formattedDate, nanoToMicro } from '../../utils/convert-utils';
 
-function Resolution({ affirmed, period }) {
+function Resolution({ approve, period, stake, ends_at, starts_at }) {
   const [hideElement, setState] = useState(true);
 
   return (
     <div className="resolution">
       <div className="resolution__list">
         <div className="resolution__item">
-          <i className={affirmed ? 'icon-success' : 'icon-close'} />
+          <i className={approve ? 'icon-success' : 'icon-close'} />
         </div>
         <div className="resolution__item">
           <span
@@ -17,7 +19,7 @@ function Resolution({ affirmed, period }) {
               hideElement ? 'up' : 'dropdown'
             }-text`}
           >
-            {period} resolution: Stage Report {affirmed ? 'AFFIRMED' : 'DENIED'}
+            {period} resolution: Stage Report {approve ? 'AFFIRMED' : 'DENIED'}
           </span>
         </div>
         <div className={`resolution__item ${hideElement ? 'up' : 'dropdown'}`}>
@@ -34,10 +36,14 @@ function Resolution({ affirmed, period }) {
       </div>
       <div className={`resolution__content ${hideElement ? 'up' : 'dropdown'}`}>
         <span className="resolution__text">
-          {period} window: <b>11.12.2021 – 11.01.2022</b>
+          {period} window:{' '}
+          <b>
+            {formattedDate(nanoToMicro(starts_at), '.')} –{' '}
+            {formattedDate(nanoToMicro(ends_at), '.')}
+          </b>
         </span>
         <span className="resolution__text">
-          Your {period} stake: <b>120 OPP</b>
+          Your {period} stake: <b>{stake} OPP</b>
         </span>
         <span className="resolution__text ">
           Validators voted: <b>13</b>
@@ -46,10 +52,5 @@ function Resolution({ affirmed, period }) {
     </div>
   );
 }
-
-Resolution.propTypes = {
-  affirmed: PropTypes.bool,
-  period: PropTypes.string,
-};
 
 export default Resolution;

@@ -12,16 +12,17 @@ const ProjectCard = ({ data }) => {
   const page = useContext(Page);
   const [isPinned, setIsPinned] = useState(false);
   const history = useHistory();
-  const {
-    status,
-    name,
-    dataUpload,
-    stage,
-    openDate,
-    closeDate,
-    area,
-    location,
-  } = data;
+  const { id, item } = data;
+  const { region, finishTimeProject, startTimeProject, square } = item;
+  let status;
+  if (Date.now() >= startTimeProject && Date.now() <= finishTimeProject) {
+    status = 'open';
+  } else if (Date.now() > finishTimeProject) {
+    status = 'completed';
+  } else {
+    status = 'pending';
+  }
+
   return (
     <div
       className="list-item"
@@ -30,31 +31,31 @@ const ProjectCard = ({ data }) => {
         history.push({
           pathname:
             page === 'data-uploads'
-              ? `/project/validation/${name}`
-              : `/project/challenge/${name}`,
+              ? `/project/validation/${id}`
+              : `/project/challenge/${id}`,
           state: { data },
         });
       }}
     >
       <Status status={status} />
       <div className="item-project">
-        <span>{name}</span>
+        <span>{id}</span>
       </div>
       <div className="item-upload">
-        <span>{dataUpload}</span>
+        <span>dataUpload</span>
       </div>
       <div className="item-stage">
-        <span>{stage}</span>
+        <span>stage</span>
       </div>
       <div className="item-open">
-        <span>{formattedDate(openDate, '.')}</span>/
-        <span>{formattedDate(closeDate, '.')}</span>
+        <span>{formattedDate(startTimeProject, '.')}</span>/
+        <span>{formattedDate(finishTimeProject, '.')}</span>
       </div>
       <div className="item-area">
-        <span>{area}</span>
+        <span>{square}</span>
       </div>
       <div className="item-location">
-        <span>{location}</span>
+        <span>{region}</span>
         {isPinned && <i className="icon-pin" />}
       </div>
     </div>

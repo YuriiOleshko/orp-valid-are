@@ -7,6 +7,7 @@ import {
   convertDateToHours,
   formattedDate,
   getTimer,
+  nanoToMicro,
 } from '../../../../utils/convert-utils';
 
 const Countdown = ({
@@ -16,18 +17,18 @@ const Countdown = ({
   showDeadline,
 }) => {
   const intl = useIntl();
-  const { openDate, closeDate, timeLeft } = data;
+  const { openDate, closeDate, timeLeft, lockTime } = data;
   let fixWidth;
-  let fixDate;
+  // let fixDate;
 
   const oneMinute = 60 * 1000;
-  const oneWeek = 7 * 24 * 60 * 60 * 1000;
+  // const oneWeek = 7 * 24 * 60 * 60 * 1000;
   const minutesInWeek = 7 * 24 * 60;
   const sizePerMinute = 100 / ((closeDate - openDate) / oneMinute);
 
   if (showDeadline) {
     fixWidth = sizePerMinute * minutesInWeek;
-    fixDate = closeDate - oneWeek;
+    // fixDate = closeDate - oneWeek;
   }
 
   const [countdownWidth, setCountdownWidth] = useState(
@@ -37,7 +38,7 @@ const Countdown = ({
   const timerTime = getTimer(timeLeft);
 
   useEffect(() => {
-    if (showDeadline && countdownWidth <= fixWidth) {
+    if (showDeadline && lockTime <= Date.now()) {
       setStakingFinished(true);
       setCountdownWidth(fixWidth);
     } else {
@@ -84,7 +85,8 @@ const Countdown = ({
                 <b>VOTE FIX</b>
               </span>
               <span>
-                {formattedDate(fixDate, '.')} {convertDateToHours(fixDate, ':')}
+                {formattedDate(lockTime, '.')}{' '}
+                {convertDateToHours(lockTime, ':')}
               </span>
             </div>
           </div>
