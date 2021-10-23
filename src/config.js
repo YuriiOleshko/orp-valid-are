@@ -1,7 +1,7 @@
 const contractName = process.env.REACT_APP_CONTRACT_NAME || [
-  'core.ofp.testnet',
-  'dai.ofp.testnet',
-  'opn.ofp.testnet',
+  'c1.ofp.testnet',
+  'dt1.ofp.testnet',
+  'ot1.ofp.testnet',
 ];
 const IPFS_URL = process.env.REACT_APP_IPFS_URL || 'https://gateway.ipfs.io';
 
@@ -30,7 +30,13 @@ export default function getConfig() {
     //   ],
     // },
     contractMethods: {
-      changeMethods: ['add_vote', 'revoke_vote', 'claim_reward'],
+      changeMethods: [
+        'add_vote',
+        'revoke_vote',
+        'claim_reward',
+        'add_profile',
+        'ft_transfer_call',
+      ],
       viewMethods: [
         'get_profile',
 
@@ -46,6 +52,7 @@ export default function getConfig() {
 
         'get_stage_voting',
         'get_stage_voters',
+        'get_period_voters',
       ],
     },
   };

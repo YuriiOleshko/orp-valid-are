@@ -37,10 +37,10 @@ const VoteInfo = ({
     </div>
     {/* <div className="project__vote-subtitle">
         <span className="project__vote-affirmed">
-          Data Upload Affirmed - 2,299 OPP
+          Data Upload Affirmed - 2,299 OPN
         </span>
         <span className="project__vote-denied">
-          Data Upload Denied - 80 OPP
+          Data Upload Denied - 80 OPN
         </span>
       </div>
       <CustomChart /> */}

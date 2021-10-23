@@ -4,8 +4,19 @@ import PropTypes from 'prop-types';
 import CustomBtn from '../../../generic/CustomBtn';
 
 function ChallengeStep2({ data }) {
-  const { stakingFinished, confirmVote, cancelVote, voteResult, numOfOPP } =
-    data;
+  const {
+    stakingFinished,
+    confirmVote,
+    cancelVote,
+    changeVote,
+    // voteResult,
+    numOfOPP,
+    userVoteApproved,
+    lastActivePeriod,
+  } = data;
+  // const prevVote =
+  //   lastActivePeriod.affirm_stake - lastActivePeriod.deny_stake > 0;
+  const prevVote = lastActivePeriod.prev_vote;
   return stakingFinished ? (
     <div className="vote_form">
       <div className="vote_form__info">
@@ -15,11 +26,18 @@ function ChallengeStep2({ data }) {
           </span>
           <span className="vote_form__text">
             <b>
-              {numOfOPP} OPP against Stage Report{' '}
-              {voteResult ? 'AFFIRMED' : 'DENIED'}
+              {numOfOPP} OPN against Stage Report{' '}
+              {prevVote ? 'AFFIRMED' : 'DENIED'}
             </b>
           </span>
         </div>
+        {!userVoteApproved && (
+          <CustomBtn
+            label="Confirm"
+            handleClick={changeVote}
+            customClass="btn__load"
+          />
+        )}
         <div className="vote__select vote__norevoke">
           <span>
             Your decision is final and non-revokable for this validation window.
@@ -36,8 +54,8 @@ function ChallengeStep2({ data }) {
           </span>
           <span className="vote_form__text">
             Your stake will remain locked until the Data Upload validation is
-            completed! {numOfOPP} OPP against Stage Report{' '}
-            {voteResult ? 'AFFIRMED' : 'DENIED'}.
+            completed! {numOfOPP} OPN against Stage Report{' '}
+            {prevVote ? 'AFFIRMED' : 'DENIED'}.
           </span>
           <span className="vote_form__text">
             <b>Are you sure you want to continue?</b>
@@ -47,7 +65,7 @@ function ChallengeStep2({ data }) {
           <CustomBtn
             label="Confirm Vote"
             customClass="vote__select__btn confirm"
-            handleClick={confirmVote}
+            handleClick={() => confirmVote(!prevVote)}
           />
           <CustomBtn
             label="Cancel"

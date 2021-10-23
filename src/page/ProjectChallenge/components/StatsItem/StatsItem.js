@@ -1,24 +1,29 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const StatsItem = ({ number, typeOfModal }) => {
+const StatsItem = ({ vote, totalStake, affirmed, number, typeOfModal }) => {
   let itemView;
-
   switch (typeOfModal) {
     case 'general':
       itemView = (
         <>
           <div className="item-address-general">
-            <span>BGCCDDHfysuuVnaNVtEhhqeT4k9Muyem3Kpgq2U1m9HX</span>
+            <span>{vote.owner_id}</span>
           </div>
           <div className="item-stake-general">
-            <span>250 OPP</span>
+            <span>{affirmed ? vote.affirm_stake : vote.deny_stake} OPN</span>
           </div>
           <div className="item-share-general">
-            <span>6%</span>
+            <span>
+              {affirmed
+                ? (vote.affirm_stake / totalStake) * 100
+                : (vote.deny_stake / totalStake) * 100}
+              %
+            </span>
           </div>
           <div className="item-value-general">
-            <span>7 DAI</span>
+            <span>{vote.reward} DAI</span>
           </div>
         </>
       );
@@ -27,13 +32,13 @@ const StatsItem = ({ number, typeOfModal }) => {
       itemView = (
         <>
           <div className="item-address-validation">
-            <span>BGCCDDHfysuuVnaNVtEhhqeT4k9Muyem3Kpgq2U1m9HX</span>
+            <span>{vote.owner_id}</span>
           </div>
           <div className="item-stake-validation">
-            <span>250 OPP</span>
+            <span>{vote.stake} OPN</span>
           </div>
           <div className="item-vote-validation">
-            <span>Affirm</span>
+            <span>{vote.vote ? 'Affirm' : 'Deny'}</span>
           </div>
         </>
       );
@@ -42,10 +47,46 @@ const StatsItem = ({ number, typeOfModal }) => {
       itemView = (
         <>
           <div className="item-address-challenge">
-            <span>BGCCDDHfysuuVnaNVtEhhqeT4k9Muyem3Kpgq2U1m9HX</span>
+            <span>{vote.owner_id}</span>
           </div>
           <div className="item-stake-challenge">
-            <span>250 OPP</span>
+            <span>{vote.stake} OPN</span>
+          </div>
+        </>
+      );
+      break;
+    case 'escalation3':
+      itemView = (
+        <>
+          <div className="item-address-challenge">
+            <span>{vote.owner_id}</span>
+          </div>
+          <div className="item-stake-challenge">
+            <span>{vote.stake} OPN</span>
+          </div>
+        </>
+      );
+      break;
+    case 'escalation4':
+      itemView = (
+        <>
+          <div className="item-address-challenge">
+            <span>{vote.owner_id}</span>
+          </div>
+          <div className="item-stake-challenge">
+            <span>{vote.stake} OPN</span>
+          </div>
+        </>
+      );
+      break;
+    case 'escalation5':
+      itemView = (
+        <>
+          <div className="item-address-challenge">
+            <span>{vote.owner_id}</span>
+          </div>
+          <div className="item-stake-challenge">
+            <span>{vote.stake} OPN</span>
           </div>
         </>
       );

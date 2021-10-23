@@ -2,11 +2,18 @@
 /* eslint-disable camelcase */
 import React, { useState } from 'react';
 import CustomBtn from '../generic/CustomBtn';
-import { formattedDate, nanoToMicro } from '../../utils/convert-utils';
+import { formattedDate } from '../../utils/convert-utils';
 
-function Resolution({ approve, period, stake, ends_at, starts_at }) {
+function Resolution({
+  votersNumber,
+  prevVote,
+  period,
+  stake,
+  ends_at,
+  starts_at,
+}) {
   const [hideElement, setState] = useState(true);
-
+  const approve = prevVote;
   return (
     <div className="resolution">
       <div className="resolution__list">
@@ -38,15 +45,14 @@ function Resolution({ approve, period, stake, ends_at, starts_at }) {
         <span className="resolution__text">
           {period} window:{' '}
           <b>
-            {formattedDate(nanoToMicro(starts_at), '.')} –{' '}
-            {formattedDate(nanoToMicro(ends_at), '.')}
+            {formattedDate(starts_at, '.')} – {formattedDate(ends_at, '.')}
           </b>
         </span>
         <span className="resolution__text">
-          Your {period} stake: <b>{stake} OPP</b>
+          Your {period} stake: <b>{stake} OPN</b>
         </span>
         <span className="resolution__text ">
-          Validators voted: <b>13</b>
+          Validators voted: <b>{votersNumber}</b>
         </span>
       </div>
     </div>

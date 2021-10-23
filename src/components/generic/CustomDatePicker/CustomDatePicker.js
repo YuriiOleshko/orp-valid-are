@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable react/prop-types */
+import React from 'react';
 import DatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
 
@@ -6,9 +7,13 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import { formattedDate } from '../../../utils/convert-utils';
 
-const CustomDatePicker = ({ labelText }) => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+const CustomDatePicker = ({
+  labelText,
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+}) => {
   const onChange = (dates) => {
     // eslint-disable-next-line
     const [start, end] = dates;

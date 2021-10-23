@@ -16,12 +16,23 @@ const Step2Wrapper = ({ data }) => {
     revokeVote,
     timeLeft,
     voteAgain,
+    lastActivePeriod,
+    userVoteApproved,
   } = data;
   return (
     <>
       {challengePeriod ? (
         <ChallengeStep2
-          data={{ ...data, stakingFinished, confirmVote, cancelVote, numOfOPP }}
+          data={{
+            ...data,
+            stakingFinished,
+            confirmVote,
+            cancelVote,
+            numOfOPP,
+            lastActivePeriod,
+            changeVote,
+            userVoteApproved,
+          }}
         />
       ) : (
         <ValidationStep2
@@ -34,6 +45,7 @@ const Step2Wrapper = ({ data }) => {
             revokeVote,
             timeLeft,
             voteAgain,
+            userVoteApproved,
           }}
         />
       )}

@@ -8,7 +8,8 @@ import { appStore } from '../../../state/app';
 import Settings from '../../../components/Settings/Settings';
 import CustomBtn from '../../../components/generic/CustomBtn';
 
-import logo from '../../../assets/image/ORPLogo.svg';
+// import logo from '../../../assets/image/ORPLogo.svg';
+import logo from '../../../assets/image/logo.svg';
 import { headerLogin } from './LangHeader';
 
 const Header = () => {

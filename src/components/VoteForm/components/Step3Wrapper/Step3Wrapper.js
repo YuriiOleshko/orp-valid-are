@@ -13,6 +13,7 @@ const Step3Wrapper = ({ data }) => {
     validationVote,
     challengeVote,
     voteResult,
+    userVote,
   } = data;
   const history = useHistory();
   return (
@@ -29,7 +30,13 @@ const Step3Wrapper = ({ data }) => {
         />
       ) : (
         <ValidationStep3
-          data={{ ...data, numOfOPP, setEscalationPeriod, voteResult }}
+          data={{
+            ...data,
+            numOfOPP,
+            setEscalationPeriod,
+            voteResult,
+            userVote,
+          }}
           titleSuccess="You have AFFIRMED this Stage Upload!"
           titleFail="You voted to DENY this Stage Upload!"
           buttonText="Go To Challenge"

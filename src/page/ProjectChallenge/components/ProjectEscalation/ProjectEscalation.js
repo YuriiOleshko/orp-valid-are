@@ -14,6 +14,7 @@ import StageStatus from '../StageStatus';
 import Resolution from '../../../../components/Resolution';
 import ValidationResult from '../ValidationResult';
 import ValidationStats from '../ValidationStats';
+import PreviewReport from '../../../../components/PreviewReport';
 
 import fullTree1 from '../../../../assets/image/trees/fullTree1.svg';
 import fullTree2 from '../../../../assets/image/trees/fullTree2.svg';
@@ -34,81 +35,66 @@ const randomTreeImage = treeImages[Math.round(Math.random() * 2)];
 
 const ProjectEscalation = ({ data }) => {
   const {
-    openDate,
-    closeDate,
+    // openDate,
+    // closeDate,
     affirmed,
     timeLeft,
     validationFinished,
     stakingFinished,
     setStakingFinished,
     escalationPeriod,
-    numOfEscalation,
+    // numOfEscalation,
     userStake,
     userVote,
     arrOfResolution,
-    challengeVote,
-    validationVote,
+    // challengeVote,
+    // validationVote,
+    userVoteApproved,
+    currentStage,
+    lastActivePeriod,
+    currentPeriod,
   } = data;
 
+  const [viewStageReport, setViewStageReport] = useState(false);
   const location = useLocation();
   const [name] = location.pathname.split('/').splice(-1);
-  const [typeOfModal, setTypeOfModal] = useState('');
-
-  return numOfEscalation >= 3 ? (
-    <div className="project">
-      {typeOfModal ? (
-        <ValidationStats
-          typeOfModal={typeOfModal}
-          setTypeOfModal={setTypeOfModal}
-        />
-      ) : (
-        <>
-          <div className="project__header">
-            <div>
-              <h2 className="project__header-subtitle">Project name</h2>
-              <h1 className="project__header-title">{name}</h1>
-            </div>
-            <StageReport />
-          </div>
-          <div className="project__body">
-            <div className="project__validation-info">
-              {validationFinished && (
-                <VoteInfo
-                  validationFinished={validationFinished}
-                  finishedTitle="Stage Report Validated!"
-                  treeHeight={0}
-                  growTree={randomTreeImage[1]}
-                  afterTree={randomTreeImage[2]}
-                  affirmed={affirmed}
-                />
-              )}
-              <OngoingResult
-                data={{ ...data }}
-                affirmedText="Resolution: AFFIRMED!"
-                deniedText="Resolution: DENIED"
-                escalationPeriod
-                setTypeOfModal={setTypeOfModal}
-              />
-            </div>
-            <ValidationResult setTypeOfModal={setTypeOfModal} />
-          </div>
-        </>
-      )}
-    </div>
-  ) : (
+  // const [typeOfModal, setTypeOfModal] = useState('');
+  // console.log(arrOfResolution, 'RESOLUTIONS');
+  return (
     <div className="project">
       <div className="project__header">
         <div>
           <h2 className="project__header-subtitle">Project name</h2>
-          <h1 className="project__header-title">{name}</h1>
+          <h1 className="project__header-title">{data.item.name}</h1>
         </div>
-        <StageReport />
+        <StageReport setViewStageReport={setViewStageReport} />
       </div>
-      <Resolution period="Validation" {...validationVote} />
-      <Resolution period="Challenge" {...challengeVote} />
-      {arrOfResolution.map((item, index) => (
-        <Resolution period="Escalation" {...item} key={Date.now() + index} />
-      ))}
+      {viewStageReport && (
+        <PreviewReport
+          setViewStageReport={setViewStageReport}
+          totalData={data.item}
+          currentStage={currentStage}
+        />
+      )}
+      {arrOfResolution.map((item, index) => {
+        if (index === 0) {
+          return (
+            <Resolution
+              period="Validation"
+              {...item}
+              key={Date.now() + index}
+            />
+          );
+        }
+        if (index === 1) {
+          return (
+            <Resolution period="Challenge" {...item} key={Date.now() + index} />
+          );
+        }
+        return (
+          <Resolution period="Escalation" {...item} key={Date.now() + index} />
+        );
+      })}
       <div className="project__body">
         {validationFinished ? (
           <OngoingResult
@@ -142,6 +128,7 @@ const ProjectEscalation = ({ data }) => {
               timeLeft,
               userStake,
               userVote,
+              userVoteApproved,
             }}
             stakingFinished={stakingFinished}
             setStakingFinished={setStakingFinished}

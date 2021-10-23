@@ -27,7 +27,8 @@ const Countdown = ({
   const sizePerMinute = 100 / ((closeDate - openDate) / oneMinute);
 
   if (showDeadline) {
-    fixWidth = sizePerMinute * minutesInWeek;
+    fixWidth = ((closeDate - lockTime) / (closeDate - openDate)) * 100;
+    // fixWidth = sizePerMinute * minutesInWeek;
     // fixDate = closeDate - oneWeek;
   }
 

@@ -5,80 +5,6 @@ import { useHistory } from 'react-router';
 import CustomBtn from '../../../../components/generic/CustomBtn';
 import { timeLineBtn } from '../../TimeLineLang';
 
-const openDate = new Date(2021, 5, 10, 8, 0, 0);
-const closeDate = new Date(2021, 6, 10, 8, 0, 0);
-const uploadArr = [
-  {
-    status: 'completed',
-    name: 'My forest',
-    dataUpload: '05.08.21',
-    stage: 12,
-    openDate,
-    closeDate,
-    area: 167.98,
-    location: 'California, USA',
-  },
-  {
-    status: 'pending',
-    name: 'My forest',
-    dataUpload: '05.08.21',
-    stage: 12,
-    openDate,
-    closeDate,
-    area: 167.98,
-    location: 'California, USA',
-  },
-  {
-    status: 'open',
-    name: 'My forest',
-    dataUpload: '05.08.21',
-    stage: 12,
-    openDate,
-    closeDate,
-    area: 167.98,
-    location: 'California, USA',
-  },
-  {
-    status: 'completed',
-    name: 'My forest',
-    dataUpload: '05.08.21',
-    stage: 12,
-    openDate,
-    closeDate,
-    area: 167.98,
-    location: 'California, USA',
-  },
-  {
-    status: 'pending',
-    name: 'My forest',
-    dataUpload: '05.08.21',
-    stage: 12,
-    openDate,
-    closeDate,
-    area: 167.98,
-    location: 'California, USA',
-  },
-  {
-    status: 'open',
-    name: 'My forest',
-    dataUpload: '05.08.21',
-    stage: 12,
-    openDate,
-    closeDate,
-    area: 167.98,
-    location: 'California, USA',
-  },
-  {
-    status: 'completed',
-    name: 'My forest',
-    dataUpload: '05.08.21',
-    stage: 12,
-    openDate,
-    closeDate,
-    area: 167.98,
-    location: 'California, USA',
-  },
-];
 const ElementTree = ({ tree, index, currentlyTrees }) => {
   const intl = useIntl();
   const history = useHistory();
@@ -92,8 +18,8 @@ const ElementTree = ({ tree, index, currentlyTrees }) => {
             label={intl.formatMessage(timeLineBtn)}
             handleClick={() => {
               history.push({
-                pathname: `/project/validation/hre`,
-                state: { data: uploadArr[0] },
+                pathname: `/project/validation/${tree.project_id}`,
+                state: { data: { id: tree.project_id, item: tree } },
               });
             }}
             customClass=""

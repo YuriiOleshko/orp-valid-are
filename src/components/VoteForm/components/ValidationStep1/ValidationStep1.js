@@ -20,11 +20,11 @@ const ValidationStep1 = ({ data }) => {
         labelText="Amount"
         classInput="project__validate-input"
         classLabel="project__validate-label"
-        backgroundText="OPP"
+        backgroundText="OPN"
         backgroundTextClass="project__validate-back"
         change={setNumOfOPP}
         value={numOfOPP}
-        warningMessage={isActiveAlert && 'Enter amount of OPP!'}
+        warningMessage={isActiveAlert && 'Enter amount of OPN!'}
       />
       <div className="project__validate-buttons">
         <CustomBtn

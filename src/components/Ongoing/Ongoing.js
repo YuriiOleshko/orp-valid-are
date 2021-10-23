@@ -27,7 +27,7 @@ const Ongoing = ({
       <div className="project__ongoing-time">
         <span>
           <b>Opened</b> {formattedDate(openDate, '.')}{' '}
-          {convertDateToHours(closeDate, ':')}
+          {convertDateToHours(openDate, ':')}
         </span>
         <span>
           <b>Closed</b> {formattedDate(closeDate, '.')}{' '}

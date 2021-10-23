@@ -13,6 +13,7 @@ const ValidationStep2 = ({ data }) => {
     revokeVote,
     timeLeft,
     voteAgain,
+    userVoteApproved,
   } = data;
   return (
     <div className="project__validate-wrapper wrapper-step2">
@@ -22,7 +23,7 @@ const ValidationStep2 = ({ data }) => {
             <span>Your vote successfully revoked!</span>
             <p>
               <b>
-                {+numOfOPP} OPP stake has been unlocked and returned to your
+                {+numOfOPP} OPN stake has been unlocked and returned to your
                 balance!
               </b>
             </p>
@@ -32,7 +33,7 @@ const ValidationStep2 = ({ data }) => {
             <span>Your vote successfully submited!</span>
             <p>
               <b>
-                {+numOfOPP || 100} OPP – Data Upload{' '}
+                {+numOfOPP || 100} OPN – Data Upload{' '}
                 {voteResult ? 'AFFIRMED' : 'DENIED'}
               </b>
             </p>
@@ -40,11 +41,21 @@ const ValidationStep2 = ({ data }) => {
         )}
       </h2>
       {stakingFinished ? (
-        <div className="project__validate-norevoke">
-          <span>
-            Your decision is final and non-revokable for this validation window.
-          </span>
-        </div>
+        <>
+          {!userVoteApproved && (
+            <CustomBtn
+              label="Confirm Vote"
+              handleClick={changeVote}
+              customClass="btn__load"
+            />
+          )}
+          <div className="project__validate-norevoke">
+            <span>
+              Your decision is final and non-revokable for this validation
+              window.
+            </span>
+          </div>
+        </>
       ) : (
         <>
           <div className="project__validate-buttons buttons-step2">
@@ -56,11 +67,13 @@ const ValidationStep2 = ({ data }) => {
               />
             ) : (
               <>
-                <CustomBtn
-                  label="Change Vote"
-                  handleClick={changeVote}
-                  customClass="btn__load"
-                />
+                {!userVoteApproved && (
+                  <CustomBtn
+                    label="Confirm Vote"
+                    handleClick={changeVote}
+                    customClass="btn__load"
+                  />
+                )}
                 <CustomBtn
                   label="Revoke Vote"
                   handleClick={revokeVote}

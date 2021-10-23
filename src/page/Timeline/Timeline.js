@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable */
+import React, { useState, useEffect, useContext } from 'react';
 import moment from 'moment';
 import InfiniteScroll from './components/InfinitiScroll';
 import Range from './components/Range';
@@ -12,6 +13,9 @@ import pic7 from '../../assets/image/trees/tree7.svg';
 import pic8 from '../../assets/image/trees/tree8.svg';
 import pic9 from '../../assets/image/trees/tree9.svg';
 import pic10 from '../../assets/image/trees/tree10.svg';
+import Loader from '../../components/Loader';
+import { appStore } from '../../state/app';
+import { formattedDate } from '../../utils/convert-utils';
 const arrayTrees = [
   pic1,
   pic2,
@@ -24,64 +28,156 @@ const arrayTrees = [
   pic9,
   pic10,
 ];
+
+const INDEXER_API = process.env.REACT_APP_INDEXER_API;
+
 const Timeline = () => {
+  const { state, update } = useContext(appStore);
+  const { app } = state;
   const [values, setValues] = useState([50]);
   const [currentlyTrees, setCurrentlyTrees] = useState(0);
-  const [items, setItems] = useState(
-    Array.from({ length: 20 }).map((el, index) => ({
-      img: arrayTrees[Math.floor(Math.random() * 10)],
-      project: 'My forest',
-      du: moment(new Date()).add(index, 'd').format('DD.MM.YY'),
-      us: 1 + index,
-      uf: `${150 + index} $`,
-      valid: `${moment(new Date()).format('DD.MM.YY')} - ${moment(new Date())
-        .add(index, 'd')
-        .format('DD.MM.YY')}`,
-    })),
-  );
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState(false);
+  const [bodyReq, setBodyReq] = useState({
+    from: 0,
+    size: 20,
+    sort: [{ startTimeProject: 'asc' }],
+    query: {
+      match_all: {},
+    },
+  });
+
+  const defineProjectInfo = (project, currStg, targetStg, prevStgId) => {
+    let currentStage;
+    let periodOpen;
+    let dataUpload;
+    let fee;
+    let img;
+    let projectName;
+    const now = Date.now() * 1e6;
+    const targetPeriod = targetStg.periods.find((per) => per.starts_at <= now && per.ends_at >= now);
+    const currentDataUpload = project.subZonesPolygon?.find(
+      (sub) => sub.stage === prevStgId,
+    );
+    currentStage = currStg.id;
+    dataUpload = currentDataUpload?.dataUploadTime;
+    periodOpen = `
+    ${targetPeriod ? formattedDate(targetPeriod.starts_at / 1e6, '.') : '---' }
+    /
+    ${targetPeriod ? formattedDate(targetPeriod.ends_at / 1e6, '.') : '---'}
+    `;
+    fee = `${currStg.fee} $`;
+    img = arrayTrees[Math.floor(Math.random() * 10)];
+    projectName = project.name;
+    return { ...project, img, project: projectName, du: dataUpload, us: currentStage, uf: fee, valid: periodOpen };
+  };
+
+  const loadProjectsPOST = async (body, loadMore) => {
+    try {
+      const projects = await fetch(INDEXER_API, {
+        method: 'POST',
+        body: JSON.stringify(body),
+      }).then((data) => data.json());
+
+      const now = Date.now() * 1e6;
+
+      // console.log(projects);
+
+      // if (!projects) return;
+
+      const projectsWithExistStage = (projects || []).filter((item) => {
+        const currStage = item.stages.find(
+          (stg) => stg.starts_at <= now && stg.ends_at >= now,
+        );
+        if (currStage) {
+          return true;
+        } else {
+          const lastStage = item.stages[item.stages.length - 1];
+          const checkIfPeriodExist = lastStage.periods.find((per) => per.starts_at <= now && per.ends_at >= now);
+          if (checkIfPeriodExist) return true;
+          else return false;
+        }
+      });
+
+      const parsedProjects = projectsWithExistStage.map((item) => {
+        const currStage = item.stages.find(
+          (stg) => stg.starts_at <= now && stg.ends_at >= now,
+        );
+        if (!currStage) {
+          const lastStage = item.stages[item.stages.length - 1];
+          return defineProjectInfo(item, lastStage, lastStage, lastStage.id);
+        }
+        if (currStage?.id === 0) {
+          return defineProjectInfo(item, currStage, currStage, 0)
+        }
+        if (currStage?.id >= 1) {
+          return defineProjectInfo(item, currStage, item.stages[currStage.id - 1], currStage.id - 1);
+        }
+      });
+
+      if (loadMore) {
+        const copyNft = [...app.timelineNft];
+        copyNft.push(...parsedProjects);
+        update('app.timelineNft', copyNft);
+      } else {
+        update('app.timelineNft', parsedProjects);
+      }
+      setErr(false);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setErr(true);
+      setLoading(false);
+    }
+  };
+
   const calcCurrentTree = (rangeValue, genWidth, genScroll, elemWidth) => {
     const currentTree = Math.floor(
       (rangeValue * (genWidth / 100) + genScroll) / elemWidth,
     );
-    if (!(currentlyTrees === currentTree)) setCurrentlyTrees(currentTree);
+    if (!(currentlyTrees === currentTree)) {
+      setValues(rangeValue);
+      setCurrentlyTrees(currentTree);
+    }
   };
-  const fetchMoreData = () => {
-    setTimeout(() => {
-      setItems(
-        items.concat(
-          Array.from({ length: 20 }).map((el, index) => ({
-            img: arrayTrees[Math.floor(Math.random() * 10)],
-            project: 'My forest',
-            du: moment(new Date()).add(index, 'd').format('DD.MM.YY'),
-            us: 1 + index,
-            uf: `${150 + index} $`,
-            valid: `${moment(new Date()).format('DD.MM.YY')} - ${moment(
-              new Date(),
-            )
-              .add(index, 'd')
-              .format('DD.MM.YY')}`,
-          })),
-        ),
-      );
-    }, 10);
+  const fetchMoreData = async () => {
+    const copyBodyReq = { ...bodyReq };
+    copyBodyReq.from = app.timelineNft.length;
+    await loadProjectsPOST(copyBodyReq, true);
   };
+
+  useEffect(async () => {
+    await loadProjectsPOST(bodyReq, false);
+  }, []);
 
   return (
     <div className="timeline">
-      <InfiniteScroll
-        rangeValue={values}
-        currentlyTrees={currentlyTrees}
-        calcCurrentTree={calcCurrentTree}
-        items={items}
-        resFunc={fetchMoreData}
-      />
-      <Range
-        values={values}
-        setValues={setValues}
-        items={items}
-        currentlyTrees={currentlyTrees}
-        calcCurrentTree={calcCurrentTree}
-      />
+      {loading || err ? (
+        <div className="validation__loader">
+          <Loader />
+        </div>
+      ) : (
+        <>
+          {app?.timelineNft.length ? (
+            <>
+              <InfiniteScroll
+                rangeValue={values}
+                currentlyTrees={currentlyTrees}
+                calcCurrentTree={calcCurrentTree}
+                items={app.timelineNft}
+                resFunc={fetchMoreData}
+              />
+              <Range
+                items={app.timelineNft}
+                currentlyTrees={currentlyTrees}
+                calcCurrentTree={calcCurrentTree}
+              />
+            </>
+          ) : (
+            <span>No projects</span>
+          )}
+        </>
+      )}
     </div>
   );
 };

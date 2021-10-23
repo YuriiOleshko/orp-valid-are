@@ -11,8 +11,8 @@ import ValidationData from './page/ValidationData';
 import ProjectChallenge from './page/ProjectChallenge';
 import CreateAcc from './page/CreateAcc';
 import Login from './page/Login';
+import Page from './context';
 
-const Page = createContext();
 const routes = [
   {
     path: '/login',
@@ -94,5 +94,4 @@ const routes = [
   },
 ];
 
-export { Page };
 export default routes;

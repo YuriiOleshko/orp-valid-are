@@ -39,8 +39,15 @@
     font-weight: bold;
   }
   &-total-stake {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 28px;
     margin-top: 20px;
+
+    .btn__load {
+      padding: 10px 20px;
+    }
   }
   &-total-validators {
     font-weight: bold;

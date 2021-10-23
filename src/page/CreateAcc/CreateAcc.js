@@ -5,6 +5,7 @@ import { FormattedDate, useIntl } from 'react-intl';
 import { Redirect, useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { appStore } from '../../state/app';
+import { GAS, parseNearAmount } from '../../state/near';
 import IntroPage from '../../components/IntroPage';
 import CustomBtn from '../../components/generic/CustomBtn';
 import CustomInput from '../../components/generic/CustomInput';
@@ -35,14 +36,19 @@ const CreateAcc = () => {
 
   const onSubmit = async (data) => {
     update('loading', true);
+    const deposit = parseNearAmount('1');
     const contract = getContract(account, contractMethods, 0);
-    const test = await contract.add_profile({
-      account_id: account.accountId,
-      first_name: data.firstName,
-      last_name: data.lastName,
-      email: data.email,
-      organization: data.companyName,
-    });
+    const test = await contract.add_profile(
+      {
+        account_id: account.accountId,
+        first_name: data.firstName,
+        last_name: data.lastName,
+        email: data.email,
+        organization: data.companyName,
+      },
+      GAS,
+      deposit,
+    );
     update('loading', false);
     history.push('/');
   };

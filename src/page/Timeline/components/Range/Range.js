@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRanger } from 'react-ranger';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
@@ -10,9 +10,11 @@ import {
   timeLineUf,
   timeLineValid,
 } from '../../TimeLineLang';
+import { formattedDate } from '../../../../utils/convert-utils';
 const Range = (props) => {
-  const { values, setValues, calcCurrentTree, items, currentlyTrees } = props;
+  const { calcCurrentTree, items, currentlyTrees } = props;
   const intl = useIntl();
+  const [val, setVal] = useState([50]);
 
   const moveRange = (newValue) => {
     const element = document.querySelector('.timeline__card');
@@ -24,78 +26,80 @@ const Range = (props) => {
       genContainer.scrollLeft,
       elemWidth,
     );
-    setValues(newValue);
+    setVal(newValue);
   };
   const { getTrackProps, handles } = useRanger({
     min: 0,
-    max: 100,
+    max: 99,
     stepSize: 1,
-    values,
+    values: val,
     onDrag: moveRange,
   });
 
   useEffect(() => {
-    moveRange(values);
+    moveRange(val);
   }, []);
-  const classNameBtn = values[0] > 70 ? 'range__btn right' : 'range__btn';
+  const classNameBtn = val[0] > 70 ? 'range__btn right' : 'range__btn';
   return (
-    <div className="range">
-      <div
-        {...getTrackProps({
-          style: {
-            height: '2px',
-            background: '#2EC3E9',
-            borderRadius: '30px',
-          },
-        })}
-      >
-        {handles.map(({ getHandleProps }) => (
-          <div
-            className={classNameBtn}
-            {...getHandleProps({
-              style: {
-                width: '24px',
-                height: '34px',
-                outline: 'none',
-                backgroundImage: `url(${pointRange})`,
-                backgroundColor: 'transparent',
-                border: 'none',
-              },
-            })}
-          >
-            <div className="range__time">{items[currentlyTrees].du}</div>
-            <div className="range__tooltip">
-              <div className="range__tooltip-field">
-                <span>{intl.formatMessage(timeLineName)}:</span>
-                {items[currentlyTrees].project}
+    items[currentlyTrees] && (
+      <div className="range">
+        <div
+          {...getTrackProps({
+            style: {
+              height: '2px',
+              background: '#2EC3E9',
+              borderRadius: '30px',
+            },
+          })}
+        >
+          {handles.map(({ getHandleProps }) => (
+            <div
+              className={classNameBtn}
+              {...getHandleProps({
+                style: {
+                  width: '24px',
+                  height: '34px',
+                  outline: 'none',
+                  backgroundImage: `url(${pointRange})`,
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                },
+              })}
+            >
+              <div className="range__time">
+                {formattedDate(items[currentlyTrees].startTimeProject, '.')}
               </div>
-              <div className="range__tooltip-field">
-                <span>{intl.formatMessage(timeLineDp)}:</span>
-                {items[currentlyTrees].du}
-              </div>
-              <div className="range__tooltip-field">
-                <span>{intl.formatMessage(timeLineUs)}:</span>
-                {items[currentlyTrees].us}
-              </div>
-              <div className="range__tooltip-field">
-                <span>{intl.formatMessage(timeLineUf)}:</span>
-                {items[currentlyTrees].uf}
-              </div>
+              <div className="range__tooltip">
+                <div className="range__tooltip-field">
+                  <span>{intl.formatMessage(timeLineName)}:</span>
+                  {items[currentlyTrees].project}
+                </div>
+                <div className="range__tooltip-field">
+                  <span>{intl.formatMessage(timeLineDp)}:</span>
+                  {items[currentlyTrees].du}
+                </div>
+                <div className="range__tooltip-field">
+                  <span>{intl.formatMessage(timeLineUs)}:</span>
+                  {items[currentlyTrees].us}
+                </div>
+                <div className="range__tooltip-field">
+                  <span>{intl.formatMessage(timeLineUf)}:</span>
+                  {items[currentlyTrees].uf}
+                </div>
 
-              <div className="range__tooltip-field">
-                <span>{intl.formatMessage(timeLineValid)}:</span>
-                {items[currentlyTrees].valid}
+                <div className="range__tooltip-field">
+                  <span>{intl.formatMessage(timeLineValid)}:</span>
+                  {items[currentlyTrees].valid}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    )
   );
 };
 Range.propTypes = {
-  values: PropTypes.array,
-  setValues: PropTypes.func,
   calcCurrentTree: PropTypes.func,
   items: PropTypes.array,
   currentlyTrees: PropTypes.number,

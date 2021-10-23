@@ -90,7 +90,7 @@ const CustomChart = () => {
           >
             <LabelList
               position="insideTop"
-              formatter={(value) => `${value} OPP`}
+              formatter={(value) => `${value} OPN`}
               style={{
                 fontSize: 21,
                 fontWeight: 'bold',

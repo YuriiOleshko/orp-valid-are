@@ -1,8 +1,16 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import CustomBtn from '../../../../components/generic/CustomBtn';
 
-const ResultItem = ({ affirmed, period, typeOfModal, setTypeOfModal }) => (
+const ResultItem = ({
+  affirmed,
+  affirmVotes,
+  denyVotes,
+  period,
+  typeOfModal,
+  setTypeOfModal,
+}) => (
   <div className="project__validation-result__item">
     <div className="project__validation-result__icon">
       <i className={affirmed ? 'icon-success' : 'icon-close'} />
@@ -17,7 +25,7 @@ const ResultItem = ({ affirmed, period, typeOfModal, setTypeOfModal }) => (
         >
           {affirmed ? ' AFFIRMED' : ' DENIED'}
         </span>
-        . {affirmed ? 29 : 6} votes AFFIRM, {affirmed ? 6 : 29} votes DENY
+        . {affirmVotes} votes AFFIRM, {denyVotes} votes DENY
       </span>
     </div>
     <div className="project__validation-result__more">

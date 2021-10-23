@@ -13,6 +13,7 @@ import VoteInfo from '../../components/VoteInfo';
 import VoteForm from '../../components/VoteForm';
 import StageReport from '../../components/StageReport/StageReport';
 import Loader from '../../components/Loader';
+import PreviewReport from '../../components/PreviewReport/PreviewReport';
 
 import greyTree1 from '../../assets/image/trees/greyTree1.svg';
 import greyTree2 from '../../assets/image/trees/greyTree2.svg';
@@ -41,6 +42,9 @@ const ProjectValidation = () => {
   const [name] = location.pathname.split('/').splice(-1);
   const [data, setData] = useState(location.state?.data);
 
+  const [viewStageReport, setViewStageReport] = useState(false);
+  const [periodsStarted, setPeriodsStarted] = useState(false);
+  const [userVoteApproved, setUserVoteApproved] = useState(false);
   const [projectStarted, setProjectStarted] = useState(true);
   const [projectFinished, setProjectFinished] = useState(false);
   const [currentStage, setCurrentStage] = useState();
@@ -63,8 +67,10 @@ const ProjectValidation = () => {
   const [validationVote, setValidationVote] = useState();
 
   const oneMinute = 60 * 1000;
-  const thirtyDays = 30 * 24 * 60 * 60 * 1000;
-  const sizePerMinute = 100 / (thirtyDays / oneMinute);
+  // const thirtyDays = 30 * 24 * 60 * 60 * 1000;
+  // const sizePerMinute = 100 / (thirtyDays / oneMinute);
+  const thirtyMinutes = 30 * 60 * 1000;
+  const sizePerMinute = 100 / (thirtyMinutes / oneMinute);
 
   useEffect(async () => {
     update('loading', true);
@@ -79,6 +85,8 @@ const ProjectValidation = () => {
             id: projectData.token_id,
             item,
           });
+          return;
+        } else {
           return;
         }
       }
@@ -98,6 +106,7 @@ const ProjectValidation = () => {
 
       // If period exists and it is validation
       if (currPeriod) {
+        setPeriodsStarted(true);
         // If main project time is finished, we need to define last stage if period exists
         // (because last validation of last stage overlaps on nowhere and get_current_stage return null)
         if (Date.now() > data.item.finishTimeProject) {
@@ -110,7 +119,10 @@ const ProjectValidation = () => {
             project_id: data.id,
             stage_id: lastStage.id,
           });
-          if (!stgVoting) return;
+          if (!stgVoting) {
+            update('loading', false);
+            return;
+          }
           setStageVoting(stgVoting);
         } else {
           // If current date is in range of start and finish project time
@@ -118,16 +130,23 @@ const ProjectValidation = () => {
           const currStage = await contract.get_current_project_stage({
             project_id: data.id,
           });
+          // console.log(currPeriod, 'dasdasdasdasdasdasdasdasd');
           // console.log(currStage);
-          if (!currStage) return;
           setCurrentStage(currStage);
+          if (!currStage) {
+            update('loading', false);
+            return;
+          }
 
           const stgVoting = await contract.get_stage_voting({
             project_id: data.id,
             stage_id: currStage.id - 1,
           });
 
-          if (!stgVoting) return;
+          if (!stgVoting) {
+            update('loading', false);
+            return;
+          }
           setStageVoting(stgVoting);
 
           if (stgVoting.closed) {
@@ -174,7 +193,8 @@ const ProjectValidation = () => {
           setTreeHeight(sizePerMinute * ((close - Date.now()) / oneMinute));
           setValidationFinished(Date.now() > close);
           setUserVote(usrVote?.vote);
-          setUserStake(usrVote?.stake / 1e24);
+          setUserVoteApproved(usrVote?.approved);
+          setUserStake(usrVote?.stake);
           setAffirmed(+validVoteResult?.affirm_stake > +validVoteResult?.deny_stake);
           setValidationVote(+validVoteResult?.affirm_stake > +validVoteResult?.deny_stake);
           setStake(validVoteResult?.stake);
@@ -194,6 +214,11 @@ const ProjectValidation = () => {
       } else if (Date.now() > data.item?.finishTimeProject) {
         // If main project time is finished and period doesn't exist
         setProjectFinished(true);
+        update('loading', false);
+        return;
+      } else {
+        setPeriodsStarted(false);
+        update('loading', false);
       }
 
       update('loading', false);
@@ -218,28 +243,38 @@ const ProjectValidation = () => {
   });
 
   if (state.loading) {
-    return <Loader />;
+    return <div className="loader-wrapper"><Loader /></div>;
   }
 
   if (!projectStarted) {
-    return <span>Project has&apos;t started yet.</span>;
+    return <div className="loader-wrapper"><span>Project has&apos;t started yet.</span></div>;
   }
 
   if (projectFinished) {
-    return <span>Project was finished.</span>;
+    return <div className="loader-wrapper"><span>Project was finished.</span></div>;
   }
 
-  if (currentStage === null) {
-    return <span>Stage has&apos;t started yet.</span>;
+  if (!periodsStarted) {
+    return <div className="loader-wrapper"><span>Voting per stage will start soon.</span></div>;
   }
 
-  if (stageVoting === null || !stageVoting?.approved) {
-    return <span>No voting per stage yet.</span>;
-  }
-
-  // if (stageVoting?.closed) {
-  //   return <span>Voting per stage is closed.</span>;
+  // if (currentStage === null) {
+  //   return <span>Stage has&apos;t started yet.</span>;
   // }
+
+  if (!currentStage) {
+    return <div className="loader-wrapper"><span>Stage has&apos;t started yet.</span></div>;
+  }
+
+  if (!stageVoting || !stageVoting?.approved) {
+    return <div className="loader-wrapper"><span>No voting per stage yet.</span></div>;
+  }
+
+  if (stageVoting?.closed) {
+    return <div className="loader-wrapper"><span>Voting per stage is closed.</span></div>;
+  }
+
+  // console.log(stageVoting, 'STAGE VOTING');
 
   // console.log(currentStage, 'CURRENT STAGE');
 
@@ -248,10 +283,17 @@ const ProjectValidation = () => {
       <div className="project__header">
         <div>
           <h2 className="project__header-subtitle">Project name</h2>
-          <h1 className="project__header-title">{data.id}</h1>
+          <h1 className="project__header-title">{data.item.name}</h1>
         </div>
-        <StageReport />
+        <StageReport setViewStageReport={setViewStageReport} />
       </div>
+      {viewStageReport && (
+        <PreviewReport
+          setViewStageReport={setViewStageReport}
+          totalData={data.item}
+          currentStage={currentStage}
+        />
+      )}
       <div className="project__body">
         {validationFinished ? (
           <OngoingResult
@@ -287,6 +329,7 @@ const ProjectValidation = () => {
               stake,
               userStake,
               userVote,
+              userVoteApproved,
               validationVote,
               currentStage,
               currentPeriod,

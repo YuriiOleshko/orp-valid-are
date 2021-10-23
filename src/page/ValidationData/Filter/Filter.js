@@ -1,10 +1,12 @@
-import React, { useContext, useState } from 'react';
+/* eslint-disable react/prop-types */
+/* eslint-disable no-plusplus */
+import React, { useContext, useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 
 import CustomDatePicker from '../../../components/generic/CustomDatePicker';
 import CustomInput from '../../../components/generic/CustomInput';
 import CustomSelect from '../../../components/generic/CustomSelect';
-import { Page } from '../../../routes';
+import Page from '../../../context';
 
 import {
   projectPlaceholder,
@@ -25,11 +27,67 @@ const stages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const uploadStatus = ['Pending', 'Open', 'Completed'];
 const challengeStatus = ['Resolved', 'Open'];
 
-const Filter = () => {
+const Filter = ({ setFilterParams }) => {
   const page = useContext(Page);
   const intl = useIntl();
   const [projectValue, setProjectValue] = useState('');
   const [locationValue, setLocationValue] = useState('');
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  useEffect(() => {
+    const paramsObj = {
+      name: projectValue,
+      region: locationValue,
+      startTimeProject: [
+        new Date(startDate).getTime(),
+        new Date(endDate).getTime(),
+      ],
+      // finishTimeProject: endDate,
+    };
+    const paramsArr = Object.keys(paramsObj);
+    const queryObj = {
+      bool: {
+        must: [],
+      },
+    };
+
+    paramsArr.forEach((key) => {
+      if (paramsObj[key]) {
+        if (key === 'startTimeProject' && startDate && endDate) {
+          queryObj.bool.must.push({
+            range: {
+              [key]: {
+                gte: paramsObj[key][0],
+                lte: paramsObj[key][1],
+              },
+            },
+          });
+        } else if (key !== 'startTimeProject') {
+          queryObj.bool.must.push({
+            wildcard: { [key]: `${paramsObj[key]}*` },
+          });
+        }
+      }
+    });
+
+    if (queryObj.bool.must.length) {
+      setFilterParams((prev) => ({
+        ...prev,
+        query: {
+          ...queryObj,
+        },
+      }));
+    } else {
+      setFilterParams((prev) => ({
+        ...prev,
+        query: {
+          match_all: {},
+        },
+      }));
+    }
+  }, [projectValue, locationValue, startDate, endDate]);
+
   return (
     <>
       <CustomInput
@@ -65,9 +123,21 @@ const Filter = () => {
           options={challengeStatus}
         />
       )}
-      <CustomDatePicker labelText={intl.formatMessage(validDateLabel)} />
+      <CustomDatePicker
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+        labelText={intl.formatMessage(validDateLabel)}
+      />
       {page === 'challenges' && (
-        <CustomDatePicker labelText={intl.formatMessage(challengeDateLabel)} />
+        <CustomDatePicker
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+          labelText={intl.formatMessage(challengeDateLabel)}
+        />
       )}
     </>
   );

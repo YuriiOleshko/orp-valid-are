@@ -24,26 +24,26 @@ const ValidationStep3 = ({
             <span>Congratulations!</span>
             <p>
               {challengePeriod && titleSuccess}
-              {!challengePeriod && (vote ? titleSuccess : titleFail)}
+              {!challengePeriod && (voteResult ? titleSuccess : titleFail)}
             </p>
           </>
         ) : (
           <span>
             {challengePeriod && `Unfortunately, ${titleFail}`}
             {!challengePeriod &&
-              `Unfortunately, ${vote ? titleSuccess : titleFail}`}
+              `Unfortunately, ${voteResult ? titleSuccess : titleFail}`}
           </span>
         )}
       </h2>
       <span className="project__validate-result">
         {voteResult === vote ? (
           <>
-            Your vote stake {+numOfOPP || 100} OPP will remain locked until
+            Your vote stake {+numOfOPP || 100} OPN will remain locked until
             stage resolution is confirmed.
           </>
         ) : (
           <>
-            Your {+numOfOPP || 100} OPP stake has been unlocked and returned to
+            Your {+numOfOPP || 100} OPN stake has been unlocked and returned to
             your balance!
           </>
         )}

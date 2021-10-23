@@ -28,12 +28,16 @@ const VoteForm = ({
     stake,
     userStake,
     userVote,
+    userVoteApproved,
     currentStage,
     currentPeriod,
     isRevoked,
     setIsRevoked,
     validationVote,
+    lastActivePeriod,
   } = data;
+
+  // console.log(data);
 
   const { state, update } = useContext(appStore);
   const { account } = state;
@@ -44,6 +48,9 @@ const VoteForm = ({
   const [voteResult, setVoteResult] = useState(userVote);
   const [step, setStep] = useState(1);
   const [isActiveAlert, setIsActiveAlert] = useState(false);
+
+  // console.log(stakingFinished, 'STAKING FINISH');
+  // console.log(voteResult, 'VOTE RESSS');
 
   useEffect(() => {
     if (validationFinished) {
@@ -82,7 +89,7 @@ const VoteForm = ({
           stage_id: currentStage.id - 1,
           period_id: currentPeriod.id,
           vote: true,
-          stake: parseNearAmount(numOfOPP),
+          stake: numOfOPP,
         },
         GAS,
         deposit,
@@ -107,7 +114,7 @@ const VoteForm = ({
           stage_id: currentStage.id - 1,
           period_id: currentPeriod.id,
           vote: false,
-          stake: parseNearAmount(numOfOPP),
+          stake: numOfOPP,
         },
         GAS,
         deposit,
@@ -125,20 +132,37 @@ const VoteForm = ({
   const changeVote = async () => {
     update('loading', true);
     // const deposit = parseNearAmount('1');
-    const contract = getContract(account, contractMethods, 0);
-    await contract.revoke_vote(
+    // const contract = getContract(account, contractMethods, 0);
+    // await contract.revoke_vote(
+    //   {
+    //     project_id: name,
+    //     stage_id: currentStage.id - 1,
+    //     period_id: currentPeriod.id,
+    //   },
+    //   GAS,
+    //   // deposit,
+    // );
+    // setIsRevoked(false);
+    // setUserVote(undefined);
+    // setStep((prev) => prev - 1);
+    // update('loading', false);
+    const deposit = '1';
+    const contract = getContract(account, contractMethods, 2);
+    await contract.ft_transfer_call(
       {
-        project_id: name,
-        stage_id: currentStage.id - 1,
-        period_id: currentPeriod.id,
+        receiver_id: 'c1.ofp.testnet',
+        amount: `${numOfOPP}`,
+        memo: null,
+        msg: JSON.stringify({
+          details: 1,
+          project_id: name,
+          stage_id: currentStage.id - 1,
+          period_id: currentPeriod.id,
+        }),
       },
       GAS,
-      // deposit,
+      deposit,
     );
-    setIsRevoked(false);
-    setUserVote(undefined);
-    setStep((prev) => prev - 1);
-    update('loading', false);
   };
 
   const revokeVote = async () => {
@@ -173,12 +197,18 @@ const VoteForm = ({
     }
   };
 
-  const confirmVote = async () => {
+  const confirmVote = async (againstPrevVote) => {
     update('loading', true);
     const deposit = parseNearAmount('1');
     const contract = getContract(account, contractMethods, 0);
-    await contract.vote(
-      { project_id: name, approve: true, stake: parseNearAmount(numOfOPP) },
+    await contract.add_vote(
+      {
+        project_id: name,
+        stage_id: currentStage.id - 1,
+        period_id: currentPeriod.id,
+        vote: againstPrevVote,
+        stake: numOfOPP,
+      },
       GAS,
       deposit,
     );
@@ -227,6 +257,8 @@ const VoteForm = ({
             revokeVote,
             timeLeft,
             voteAgain,
+            lastActivePeriod,
+            userVoteApproved,
           }}
         />
       )}
@@ -240,6 +272,8 @@ const VoteForm = ({
             setEscalationPeriod,
             validationVote,
             voteResult,
+            userVoteApproved,
+            userVote,
           }}
         />
       )}
