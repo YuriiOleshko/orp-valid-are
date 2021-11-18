@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import CustomDatePicker from '../../../components/generic/CustomDatePicker';
 import CustomInput from '../../../components/generic/CustomInput';
 import CustomSelect from '../../../components/generic/CustomSelect';
-import Page from '../../../context';
+import Page from '../../../utils/context';
 
 import {
   projectPlaceholder,

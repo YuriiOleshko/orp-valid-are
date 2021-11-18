@@ -12,6 +12,10 @@ const InfiniteScroll = ({
   const scrollContainerRef = useRef(null);
   const [disableScroll, setDisableScroll] = useState(false);
   const genScrollContainerRef = useRef(null);
+  const scrollingWrapperStyle =
+    items.length < 10
+      ? 'timeline__scrolling-wrapper timeline__stretch'
+      : 'timeline__scrolling-wrapper';
 
   const handleScroll = (e, callback) => {
     if (!disableScroll) {
@@ -43,7 +47,7 @@ const InfiniteScroll = ({
 
   useEffect(() => {
     if (disableScroll) {
-      setTimeout(() => setDisableScroll(false), 40);
+      setTimeout(() => setDisableScroll(false), 100);
     }
   }, [disableScroll]);
   return (
@@ -54,7 +58,7 @@ const InfiniteScroll = ({
       ref={genScrollContainerRef}
     >
       {/* <ScrollContainer> */}
-      <div ref={scrollContainerRef} className="timeline__scrolling-wrapper">
+      <div ref={scrollContainerRef} className={scrollingWrapperStyle}>
         {items.map((i, index) => (
           <ElementTree
             tree={i}

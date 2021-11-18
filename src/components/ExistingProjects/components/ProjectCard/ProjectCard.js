@@ -6,7 +6,7 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import Status from '../Status';
-import Page from '../../../../context';
+import Page from '../../../../utils/context';
 import { formattedDate } from '../../../../utils/convert-utils';
 
 const ProjectCard = ({ data }) => {
@@ -30,19 +30,6 @@ const ProjectCard = ({ data }) => {
   let periodOpen;
   let dataUpload;
   let status;
-  // if (Date.now() >= startTimeProject && Date.now() <= finishTimeProject) {
-  //   status = 'open';
-  // } else if (Date.now() > finishTimeProject) {
-  //   status = 'completed';
-  // } else {
-  //   status = 'pending';
-  // }
-
-
-  // currentStage = currentStage.id;
-  // const currPeriod = currStage.periods.find(
-  //   (per) => per.starts_at <= now && per.ends_at >= now,
-  // );
 
   const defineProjectInfo = (currStg, targetStg, prevStgId, page) => {
     const targetPeriod = targetStg.periods.find((per) => {
@@ -77,12 +64,7 @@ const ProjectCard = ({ data }) => {
       }
     } else {
       const lastStage = stages[stages.length - 1];
-      const checkIfPeriodExist = lastStage.periods.find(
-        (per) => per.starts_at <= now && per.ends_at >= now,
-      );
-      if (checkIfPeriodExist) {
-        defineProjectInfo(lastStage, lastStage, lastStage.id, page);
-      }
+      defineProjectInfo(lastStage, lastStage, lastStage.id, page);
     }
   };
 

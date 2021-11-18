@@ -76,145 +76,19 @@ const ProjectChallenge = () => {
   const [stakingFinished, setStakingFinished] = useState(false);
   const [validationFinished, setValidationFinished] = useState();
   const [escalationPeriod, setEscalationPeriod] = useState(false);
-  // const [numOfEscalation, setNumOfEscalation] = useState(0);
   const [affirmed, setAffirmed] = useState();
   const [challengeVote, setChallengeVote] = useState();
   const [validationVote, setValidationVote] = useState();
-  // const [escalationVote, setEscalationVote] = useState();
   const [stake, setStake] = useState();
   const [userVote, setUserVote] = useState();
   const [userStake, setUserStake] = useState();
   const [arrOfResolution, setArrOfResolution] = useState([]);
-
-  // const defineCurrentPeriod = async (allPer) => {
-  //   const contract = getContract(account, contractMethods, 0);
-  //   const period = await contract.get_current_project_period({
-  //     project_id: name,
-  //   });
-  //   if (!period) {
-  //     setTimeLeft(0);
-  //     setEscalationPeriod(true);
-  //     setShowPeriod(true);
-  //     setValidationFinished(true);
-  //     setStakingFinished(true);
-  //     setNumOfEscalation(3);
-  //     return {};
-  //   }
-  //   const projectVotes = await contract.get_project_votes({
-  //     project_id: name,
-  //   });
-
-  //   const challengeVoteResult = stgVoting.voting_per_period.find(
-  //     (item) => item.period_id === 1,
-  //   );
-  //   const validationVoteResult = stgVoting.voting_per_period.find(
-  //     (item) => item.period_id === 0,
-  //   );
-
-  //   const accountVotes = await contract.get_account_votes({
-  //     account_id: account.accountId,
-  //   });
-
-  //   const usrVote = accountVotes.find(
-  //     (item) =>
-  //       item.project_id === data.id &&
-  //       item.stage_id === currStage.id - 1 &&
-  //       item.period_id === currentPeriod.id,
-  //   );
-
-  //   setAllPeriods(allPer);
-  //   if (period.id >= 2 && period.id <= 4) {
-  //     const arrEscalPeriod = allPer.filter(
-  //       (item) => item.id <= period.id,
-  //     );
-  //     arrEscalPeriod.splice(0, 2);
-
-  //     const pastEscalationResults = arrEscalPeriod.map((i, index) => {
-  //       const voteExist = projectVotes.find((item) => item.period_id === i.id);
-  //       if (voteExist) {
-  //         return { ...voteExist, starts_at: i.starts_at, ends_at: i.ends_at };
-  //       }
-  //       return { starts_at: i.starts_at, ends_at: i.ends_at, stake: '---' };
-  //     });
-  //     pastEscalationResults.pop();
-  //     setArrOfResolution(pastEscalationResults);
-
-  //     const escalationVoteResult = projectVotes.find(
-  //       (item) =>
-  //         item.period_id === arrEscalPeriod[arrEscalPeriod.length - 1].id,
-  //     );
-
-  //     if (escalationVoteResult) {
-  //       setValidationFinished(false);
-  //       setStakingFinished(true);
-  //     }
-  //     setEscalationVote(escalationVoteResult?.approve);
-  //     setUserVote(escalationVoteResult?.approve);
-  //     setUserStake(escalationVoteResult?.stake);
-  //     setEscalationPeriod(true);
-  //     setShowPeriod(true);
-  //     // setValidationFinished(true);
-  //     // setStakingFinished(false);
-  //     // setTimeLeft(0);
-  //     const pastEscalations = period.id >= 3 ? numOfEscalation + 1 : 0;
-  //     setNumOfEscalation(pastEscalations);
-  //     if (pastEscalations > 3) {
-  //       setValidationFinished(true);
-  //       setShowPeriod(true);
-  //     }
-  //   } else {
-  //     if (challengeVoteResult) {
-  //       setValidationFinished(false);
-  //       setStakingFinished(true);
-  //     }
-
-  //     setUserVote(usrVote?.vote);
-  //     setUserStake(usrVote?.stake);
-  //     setStake(usrVote?.stake);
-  //   }
-
-  //   const start = nanoToMicro(period.starts_at);
-  //   const end = nanoToMicro(period.ends_at);
-  //   const valVote = validationVoteResult
-  //     ? {
-  //         ...validationVoteResult,
-  //         starts_at: validationPeriod.starts_at,
-  //         ends_at: validationPeriod.ends_at,
-  //       }
-  //     : {
-  //         starts_at: validationPeriod.starts_at,
-  //         ends_at: validationPeriod.ends_at,
-  //         stake: '---',
-  //       };
-
-  //   const challVote = challengeVoteResult
-  //     ? {
-  //         ...challengeVoteResult,
-  //         starts_at: challengePeriod.starts_at,
-  //         ends_at: challengePeriod.ends_at,
-  //       }
-  //     : {
-  //         starts_at: challengePeriod.starts_at,
-  //         ends_at: challengePeriod.ends_at,
-  //         stake: '---',
-  //       };
-  //   setOpenDate(start);
-  //   setCloseDate(end);
-  //   setTimeLeft(end - Date.now());
-  //   setValidationVote(valVote);
-  //   setChallengeVote(challVote);
-  //   setAffirmed(challengeVoteResult?.approve);
-
-  //   return period;
-  // };
 
   const getResultPageInfo = async (contract, currStage, currPeriod, stgVoting) => {
     const allVotes = await contract.get_stage_voters({ project_id: `${data.id}`, stage_id: currStage.id - 1, from_index: 0, limit: 1000 });
     const lastActivePeriod = stgVoting.last_active_period;
     // const lastActivePer = stgVoting.voting_per_period[periodId];
     // setLastActivePeriod(lastActivePer);
-    // console.log(stgVoting, 'STGGGGGG');
-    // console.log(allVotes, 'ALL VOTES');
 
     const pastPer = stgVoting.voting_per_period.filter((item, id) => {
       if (lastActivePeriod !== 4) {
@@ -283,10 +157,6 @@ const ProjectChallenge = () => {
         }
         setStageVoting(stgVoting);
 
-        // console.log(currStage, 'CURR STAGE');
-        // console.log(stgVoting, 'STAGE VOTING');
-        // console.log(currPeriod, 'CURR PERIOD');
-
         if (stgVoting?.closed) {
           getResultPageInfo(contract, currStage, currPeriod, stgVoting);
           return;
@@ -295,8 +165,6 @@ const ProjectChallenge = () => {
         const periodId = stgVoting.last_active_period;
         const pastPer = stgVoting.voting_per_period.filter((item, id) => id <= currPeriod.id);
         const lastActivePer = stgVoting.voting_per_period[currPeriod.id];
-        // console.log(stgVoting.voting_per_period);
-        // console.log(lastActivePer, 'ADASDASDASDASDASDASDASD');
   
         const allPer = await contract.get_periods_per_project_stage({
           project_id: name,
@@ -320,10 +188,6 @@ const ProjectChallenge = () => {
           (item, id) => id === 0,
         );
 
-        // console.log(pastPer, 'PAST');
-        // console.log(challengeVoteResult, 'CHALL');
-        // console.log(validationVoteResult, 'VAL');
-
         // const challengeVoteResult = stgVoting.voting_per_period.find(
         //   (item) => item.period_id === 1,
         // );
@@ -334,8 +198,6 @@ const ProjectChallenge = () => {
         const accountVotes = await contract.get_account_votes({
           account_id: account.accountId,
         });
-
-        // console.log(accountVotes, 'ACCOUNT VOTES');
     
         const usrVote = accountVotes.find(
           (item) =>
@@ -351,14 +213,8 @@ const ProjectChallenge = () => {
             item.period_id === 0,
         );
 
-        // console.log(validVote, 'QQQQQQQQQQQ');
-
-        // console.log(usrVote, 'USER VOTE');
-
         if (currPeriod.id >= 2 && currPeriod.id <= 4) {
           // const arrEscalPeriod = pastPer;
-  
-          // console.log(pastPer, 'PAST PERRRRRRRRR');
           const pastResults = pastPer.map((i, index) => {
             const voteExist = accountVotes.find(
               (item) => 
@@ -386,7 +242,6 @@ const ProjectChallenge = () => {
           //     item.stage_id === currStage.id - 1 &&
           //     item.period_id === currPeriod.id,
           // );
-          // console.log(usrVote, 'USER VOTE');
     
           if (usrVote) {
             setValidationFinished(false);
@@ -405,7 +260,6 @@ const ProjectChallenge = () => {
           // setTimeLeft(0);
         } else {
           if (usrVote) {
-            // console.log('PPPPPPPPPPPPPPPPPPPP');
             setValidationFinished(false);
             setStakingFinished(true);
             setUserVoteApproved(usrVote?.approved);
@@ -415,8 +269,6 @@ const ProjectChallenge = () => {
           setStake(usrVote?.stake);
           setUserVoteApproved(usrVote?.approved);
         }
-
-        // console.log(lastActivePer, 'LAST ACTIVE PER');
 
         const start = nanoToMicro(currPeriod.starts_at);
         const end = nanoToMicro(currPeriod.ends_at);
@@ -542,10 +394,6 @@ const ProjectChallenge = () => {
     return <div className="loader-wrapper"><span>Voting per stage will start soon.</span></div>;
   }
 
-  // if (currentStage === null) {
-  //   return <span>Stage has&apos;t started yet.</span>;
-  // }
-
   if (!currentStage) {
     return <div className="loader-wrapper"><span>Stage has&apos;t started yet.</span></div>;
   }
@@ -553,12 +401,6 @@ const ProjectChallenge = () => {
   if (stageVoting === null || !stageVoting?.approved) {
     return <div className="loader-wrapper"><span>No voting per stage yet.</span></div>;
   }
-
-  // if (currentPeriod.id >= 2) {
-  //   return <span>Escalation will be soon</span>
-  // }
-
-  // console.log(stageVoting, 'ASDASDASDASDASDASD');
 
   return showPeriod ? (
     <ProjectEscalation
@@ -571,7 +413,6 @@ const ProjectChallenge = () => {
         stakingFinished,
         setStakingFinished,
         escalationPeriod,
-        // numOfEscalation,
         userStake,
         userVote,
         arrOfResolution,
@@ -643,32 +484,13 @@ const ProjectChallenge = () => {
         <>
           {!validationFinished && <StageStatus {...validationVote} prevVote={lastActivePeriod?.prev_vote} />}
           <div className="project__body">
-            {validationFinished ? (
-              <OngoingResult
-                data={{ ...data, openDate, closeDate, affirmed }}
-                affirmedText="Challenge SUCCESSFUL!"
-                deniedText="Challenge FAILED!"
-                challengePeriod
-              />
-            ) : (
-              <Ongoing
-                data={{ ...data, timeLeft, openDate, closeDate }}
-                stakingFinished={stakingFinished}
-                setStakingFinished={setStakingFinished}
-                title="Ongoing Challenge Window"
-              />
-            )}
+            <Ongoing
+              data={{ ...data, timeLeft, openDate, closeDate }}
+              stakingFinished={stakingFinished}
+              setStakingFinished={setStakingFinished}
+              title="Ongoing Challenge Window"
+            />
             <div className="project__validation-info">
-              {validationFinished && (
-                <VoteInfo
-                  validationFinished={validationFinished}
-                  finishedTitle="Challenge Completed"
-                  treeHeight={0}
-                  growTree={randomTreeImage[1]}
-                  afterTree={randomTreeImage[2]}
-                  affirmed={affirmed}
-                />
-              )}
               <VoteForm
                 data={{
                   ...data,

@@ -12,35 +12,7 @@ import Filter from './Filter';
 import Loader from '../../components/Loader';
 import { btnLoad } from './LangValidationData';
 import { nanoToMicro } from '../../utils/convert-utils';
-import Page from '../../context';
-
-// {
-//   "query": {
-//     "multi_match": {
-//         "query" : "Jonglei, South Sudan 555444"
-//         , "fields": ["region","budget"]
-//     }
-//   }
-// }
-
-// {
-//   "query": {
-//       "range" : {
-//           "experience" : {
-//               "gte" : 5,
-//               "lte" : 10
-//           }
-//       }
-//   }
-// }
-
-// {
-//   "query": {
-//     "query_string": {
-//       "query": "(budget: 555444) OR (region: Ukraine)"
-//     }
-//   }
-// }
+import Page from '../../utils/context';
 
 const INDEXER_API = process.env.REACT_APP_INDEXER_API;
 
@@ -52,60 +24,11 @@ const ValidationData = () => {
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(false);
   const [filterParams, setFilterParams] = useState({
-    from: 0, size: 10,
+    from: 0, size: 30,
     query: {
       match_all: {}
     }
   });
-
-  // const loadTokens = async () => {
-  //   // if (app.nftTokens.length) return;
-  //   // const ipfs = await initIPFS();
-  //   // const contract = getContract(account, contractMethods, 0);
-  //   // let tokenIds = [];
-
-  //   try {
-  //     // tokenIds = await contract.get_account_projects({
-  //     //   account_id: account.accountId,
-  //     //   from_index: 0,
-  //     //   limit: 30,
-  //     // });
-  //     // if (tokenIds.length === 0) {
-  //     //   return;
-  //     // }
-
-  //     // // Get all files saved to ipfs for each nft token
-  //     // const data = await Promise.all(
-  //     //   tokenIds.map(async (token) => {
-  //     //     const item = await getJSONFileFromIpfs(ipfs, token.info.cid);
-  //     //     return {
-  //     //       id: token.token_id,
-  //     //       item,
-  //     //     };
-  //     //   }),
-  //     // );
-  //     // update('app.nftTokens', data);
-  //   } catch (e) {
-  //     //setErr(true);
-  //   }
-  // };
-
-  const loadProjectsGET = async (offset) => {
-    try {
-      const offSet = offset ? `&offset=${offset}` : '';
-      const projects = await fetch(`${INDEXER_API}?limit=5${offSet}`).then((data) => data.json());
-
-      if (!projects) return;
-
-      const parsedProjects = projects.map((item) => ({ id: item.project_id, item }));
-      const copyNft = [...app.nftTokens];
-      copyNft.push(...parsedProjects)
-      update('app.nftTokens', copyNft);
-    } catch (e) {
-      console.log(e)
-      setErr(true);
-    }    
-  };
 
   const loadProjectsPOST = async (body, loadMore) => {
     try {
@@ -117,24 +40,12 @@ const ValidationData = () => {
       let filteredProjects = [];
       const now = Date.now() * 1e6;
 
-      // console.log(projects);
-
       // if (!projects) return;
 
       const parsedProjects = (projects || []).map((item) => ({ id: item.project_id, item }));
 
       if (page === 'data-uploads') {
-        filteredProjects = parsedProjects.filter((proj) => {
-          const currStage = proj.item.stages.find((stg) => stg.starts_at <= now && stg.ends_at >= now);
-          if (currStage) {
-            return true;
-          } else {
-            const lastStage = proj.item.stages[proj.item.stages.length - 1];
-            const checkIfPeriodExist = lastStage.periods.find((per) => per.starts_at <= now && per.ends_at >= now);
-            if (checkIfPeriodExist) return true;
-            else return false;
-          }
-        });
+        filteredProjects = parsedProjects;
       } else if (page === 'challenges') {
         filteredProjects = parsedProjects.filter((proj) => {
           const currStage = proj.item.stages.find((stg) => stg.starts_at <= now && stg.ends_at >= now);
@@ -168,40 +79,6 @@ const ValidationData = () => {
       setLoading(false);
     }    
   };
-
-  async function postData(url = '', data = {}) {
-    // Default options are marked with *
-    const response = await fetch(url, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      // mode: 'no-cors', // no-cors, *cors, same-origin
-      // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      // credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      redirect: 'follow', // manual, *follow, error
-      referrerPolicy: 'no-referrer', // no-referrer, *client
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
-    });
-    return await response.json(); // parses JSON response into native JavaScript objects
-  }
-
-  const body = {
-    sort: [{ startTimeProject: 'asc' }],
-    query: {
-      match_all: {},
-    },
-  };
-
-  // useEffect(async () => {
-  //   postData(
-  //     'http://ec2-3-70-19-33.eu-central-1.compute.amazonaws.com/projects',
-  //     body,
-  //   ).then((data) => {
-  //     console.log(data); // JSON data parsed by `response.json()` call
-  //   });
-  // }, []);
 
   useEffect(async () => {
     await loadProjectsPOST(filterParams, false);

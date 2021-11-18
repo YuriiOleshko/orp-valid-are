@@ -19,32 +19,43 @@ const ValidationStep3 = ({
       }`}
     >
       <h2 className="project__validate-title title-step2">
-        {voteResult === vote ? (
+        {typeof voteResult === 'boolean' && (
           <>
-            <span>Congratulations!</span>
-            <p>
-              {challengePeriod && titleSuccess}
-              {!challengePeriod && (voteResult ? titleSuccess : titleFail)}
-            </p>
+            {voteResult === vote ? (
+              <>
+                <span>Congratulations!</span>
+                <p>
+                  {challengePeriod && titleSuccess}
+                  {!challengePeriod && (voteResult ? titleSuccess : titleFail)}
+                </p>
+              </>
+            ) : (
+              <span>
+                {challengePeriod && `Unfortunately, ${titleFail}`}
+                {!challengePeriod &&
+                  `Unfortunately, ${voteResult ? titleSuccess : titleFail}`}
+              </span>
+            )}
           </>
-        ) : (
-          <span>
-            {challengePeriod && `Unfortunately, ${titleFail}`}
-            {!challengePeriod &&
-              `Unfortunately, ${voteResult ? titleSuccess : titleFail}`}
-          </span>
         )}
       </h2>
       <span className="project__validate-result">
         {voteResult === vote ? (
           <>
-            Your vote stake {+numOfOPP || 100} OPN will remain locked until
-            stage resolution is confirmed.
+            Your vote stake {+numOfOPP} OPN will remain locked until stage
+            resolution is confirmed.
           </>
         ) : (
           <>
-            Your {+numOfOPP || 100} OPN stake has been unlocked and returned to
-            your balance!
+            {typeof voteResult === 'boolean' ? (
+              <>
+                {' '}
+                Your {+numOfOPP} OPN stake has been unlocked and returned to
+                your balance!
+              </>
+            ) : (
+              <>Unfortunately, you haven&apos;t voted.</>
+            )}
           </>
         )}
       </span>

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/orp-valid-area.iml" filepath="$PROJECT_DIR$/.idea/orp-valid-area.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/validation-area.iml" filepath="$PROJECT_DIR$/.idea/validation-area.iml" />
     </modules>
   </component>
 </project>

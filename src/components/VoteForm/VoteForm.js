@@ -21,11 +21,7 @@ const VoteForm = ({
   setUserVote,
 }) => {
   const {
-    closeDate,
-    openDate,
     timeLeft,
-    affirmed,
-    stake,
     userStake,
     userVote,
     userVoteApproved,
@@ -37,8 +33,6 @@ const VoteForm = ({
     lastActivePeriod,
   } = data;
 
-  // console.log(data);
-
   const { state, update } = useContext(appStore);
   const { account } = state;
   const location = useLocation();
@@ -48,9 +42,6 @@ const VoteForm = ({
   const [voteResult, setVoteResult] = useState(userVote);
   const [step, setStep] = useState(1);
   const [isActiveAlert, setIsActiveAlert] = useState(false);
-
-  // console.log(stakingFinished, 'STAKING FINISH');
-  // console.log(voteResult, 'VOTE RESSS');
 
   useEffect(() => {
     if (validationFinished) {
@@ -129,23 +120,8 @@ const VoteForm = ({
     update('loading', false);
   };
 
-  const changeVote = async () => {
+  const payForVote = async () => {
     update('loading', true);
-    // const deposit = parseNearAmount('1');
-    // const contract = getContract(account, contractMethods, 0);
-    // await contract.revoke_vote(
-    //   {
-    //     project_id: name,
-    //     stage_id: currentStage.id - 1,
-    //     period_id: currentPeriod.id,
-    //   },
-    //   GAS,
-    //   // deposit,
-    // );
-    // setIsRevoked(false);
-    // setUserVote(undefined);
-    // setStep((prev) => prev - 1);
-    // update('loading', false);
     const deposit = '1';
     const contract = getContract(account, contractMethods, 2);
     await contract.ft_transfer_call(
@@ -253,7 +229,7 @@ const VoteForm = ({
             cancelVote,
             isRevoked,
             voteResult,
-            changeVote,
+            payForVote,
             revokeVote,
             timeLeft,
             voteAgain,

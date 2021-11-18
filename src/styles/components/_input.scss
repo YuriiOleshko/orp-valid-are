@@ -11,6 +11,12 @@
 }
 .input-wrapper-login {
   margin-right: 0;
+  &.checkbox{
+    .input-warning{
+      top: 40px;
+
+    }
+  }
 }
 .input {
   padding: 10px;
@@ -26,11 +32,11 @@
     color: $color-placeholder;
     opacity: 1; /* Firefox */
   }
-  
+
   &:-ms-input-placeholder { /* Internet Explorer 10-11 */
     color: $color-placeholder;
   }
-  
+
   &::-ms-input-placeholder { /* Microsoft Edge */
     color: $color-placeholder;
   }

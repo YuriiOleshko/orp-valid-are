@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useIntl } from 'react-intl';
-import Page from '../../../../context';
+import Page from '../../../../utils/context';
 
 import {
   validationStatus,

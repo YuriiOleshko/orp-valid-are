@@ -9,7 +9,7 @@ const ValidationStep2 = ({ data }) => {
     numOfOPP,
     voteResult,
     stakingFinished,
-    changeVote,
+    payForVote,
     revokeVote,
     timeLeft,
     voteAgain,
@@ -33,7 +33,7 @@ const ValidationStep2 = ({ data }) => {
             <span>Your vote successfully submited!</span>
             <p>
               <b>
-                {+numOfOPP || 100} OPN – Data Upload{' '}
+                {+numOfOPP} OPN – Data Upload{' '}
                 {voteResult ? 'AFFIRMED' : 'DENIED'}
               </b>
             </p>
@@ -45,7 +45,7 @@ const ValidationStep2 = ({ data }) => {
           {!userVoteApproved && (
             <CustomBtn
               label="Confirm Vote"
-              handleClick={changeVote}
+              handleClick={payForVote}
               customClass="btn__load"
             />
           )}
@@ -70,7 +70,7 @@ const ValidationStep2 = ({ data }) => {
                 {!userVoteApproved && (
                   <CustomBtn
                     label="Confirm Vote"
-                    handleClick={changeVote}
+                    handleClick={payForVote}
                     customClass="btn__load"
                   />
                 )}

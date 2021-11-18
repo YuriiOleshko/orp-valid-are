@@ -20,6 +20,7 @@ import {
   inputPlaceholderEmail,
   btnLabel,
   btnLateLabel,
+  inputPlaceholderTerms,
 } from './LangCreateAcc';
 
 const CreateAcc = () => {
@@ -45,6 +46,7 @@ const CreateAcc = () => {
         last_name: data.lastName,
         email: data.email,
         organization: data.companyName,
+        terms: data.terms,
       },
       GAS,
       deposit,
@@ -113,6 +115,19 @@ const CreateAcc = () => {
                   required
                   maxLength={180}
                   pattern={/^\S+@\S+$/i}
+                />
+                <CustomInput
+                  uncontrolled
+                  type="checkbox"
+                  value={false}
+                  classInputWrapper="input-wrapper-login checkbox"
+                  classLabel="input-label-login login__check-label"
+                  labelText={intl.formatMessage(inputPlaceholderTerms)}
+                  error={errors.terms}
+                  classInput="login__checkbox"
+                  name="terms"
+                  register={register}
+                  required
                 />
                 <div className="login__wrapper-btn_acc">
                   <CustomBtn

@@ -126,12 +126,9 @@ const ProjectValidation = () => {
           setStageVoting(stgVoting);
         } else {
           // If current date is in range of start and finish project time
-          // console.log(currPeriod, 'CURRENT PERIOD');
           const currStage = await contract.get_current_project_stage({
             project_id: data.id,
           });
-          // console.log(currPeriod, 'dasdasdasdasdasdasdasdasd');
-          // console.log(currStage);
           setCurrentStage(currStage);
           if (!currStage) {
             update('loading', false);
@@ -164,12 +161,6 @@ const ProjectValidation = () => {
               item.period_id === 0,
           );
 
-          // console.log(accountVotes, 'ACCOUNT VOTES');
-
-          // console.log(usrVote, 'USER VOTE');
-
-          // console.log(stgVoting, 'STAGE VOTING');
-
           const allPer = await contract.get_periods_per_project_stage({
             project_id: data.id,
             stage_id: currStage.id - 1,
@@ -177,12 +168,7 @@ const ProjectValidation = () => {
 
           const validPeriod = allPer.find((item) => item.id === 0);
 
-          // console.log(allPer, 'ALL PERIODS');
-          // console.log(validPeriod, 'VALID PERIOD');
-
           const validVoteResult = { ...stgVoting.voting_per_period[0] };
-
-          // console.log(validVoteResult, 'STAGE VOTING VALID');
 
           const open = nanoToMicro(validVoteResult.starts_at);
           const close = nanoToMicro(validVoteResult.ends_at);
@@ -273,10 +259,6 @@ const ProjectValidation = () => {
   if (stageVoting?.closed) {
     return <div className="loader-wrapper"><span>Voting per stage is closed.</span></div>;
   }
-
-  // console.log(stageVoting, 'STAGE VOTING');
-
-  // console.log(currentStage, 'CURRENT STAGE');
 
   return (
     <div className="project">

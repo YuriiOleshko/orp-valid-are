@@ -40,7 +40,7 @@ const Timeline = () => {
   const [err, setErr] = useState(false);
   const [bodyReq, setBodyReq] = useState({
     from: 0,
-    size: 20,
+    size: 30,
     sort: [{ startTimeProject: 'asc' }],
     query: {
       match_all: {},
@@ -60,7 +60,7 @@ const Timeline = () => {
       (sub) => sub.stage === prevStgId,
     );
     currentStage = currStg.id;
-    dataUpload = currentDataUpload?.dataUploadTime;
+    dataUpload = currentDataUpload?.dataUploadTime ? formattedDate(currentDataUpload?.dataUploadTime, '.') : '---';
     periodOpen = `
     ${targetPeriod ? formattedDate(targetPeriod.starts_at / 1e6, '.') : '---' }
     /
@@ -81,25 +81,23 @@ const Timeline = () => {
 
       const now = Date.now() * 1e6;
 
-      // console.log(projects);
-
       // if (!projects) return;
 
-      const projectsWithExistStage = (projects || []).filter((item) => {
-        const currStage = item.stages.find(
-          (stg) => stg.starts_at <= now && stg.ends_at >= now,
-        );
-        if (currStage) {
-          return true;
-        } else {
-          const lastStage = item.stages[item.stages.length - 1];
-          const checkIfPeriodExist = lastStage.periods.find((per) => per.starts_at <= now && per.ends_at >= now);
-          if (checkIfPeriodExist) return true;
-          else return false;
-        }
-      });
+      // const projectsWithExistStage = (projects || []).filter((item) => {
+      //   const currStage = item.stages.find(
+      //     (stg) => stg.starts_at <= now && stg.ends_at >= now,
+      //   );
+      //   if (currStage) {
+      //     return true;
+      //   } else {
+      //     const lastStage = item.stages[item.stages.length - 1];
+      //     const checkIfPeriodExist = lastStage.periods.find((per) => per.starts_at <= now && per.ends_at >= now);
+      //     if (checkIfPeriodExist) return true;
+      //     else return false;
+      //   }
+      // });
 
-      const parsedProjects = projectsWithExistStage.map((item) => {
+      const parsedProjects = (projects || []).map((item) => {
         const currStage = item.stages.find(
           (stg) => stg.starts_at <= now && stg.ends_at >= now,
         );

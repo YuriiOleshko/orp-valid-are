@@ -30,8 +30,6 @@ const ValidationStats = ({
 
   const totalStake = +stageVoting.affirm_stake + +stageVoting.deny_stake;
 
-  // console.log(typeOfModal, 'TYPE OF MODAL');
-
   useEffect(async () => {
     if (account && account.accountId) {
       let arr;
@@ -53,8 +51,6 @@ const ValidationStats = ({
   if (!votesArr) {
     return <div className="loader-wrapper"><Loader /></div>;
   }
-
-  // console.log(votesArr, 'VOTES ARR');
 
   switch (typeOfModal) {
     case 'general':
@@ -131,6 +127,9 @@ const ValidationStats = ({
       );
       break;
     case 'challenge':
+    case 'escalation3':
+    case 'escalation4':
+    case 'escalation5':
       totalValiatorsView = (
         <span>Validators Voted: {stageVoting.voters_number}</span>
       );
@@ -157,87 +156,6 @@ const ValidationStats = ({
         </div>
       );
       break;
-      case 'escalation3':
-        totalValiatorsView = (
-          <span>Validators Voted: {stageVoting.voters_number}</span>
-        );
-        headerView = (
-          <div className="project__stats-list-header">
-            <div className="header-address-challenge">
-              <span>Validator Address</span>
-            </div>
-            <div className="header-stake-challenge">
-              <span>Stake</span>
-            </div>
-          </div>
-        );
-        listView = (
-          <div className="project__stats-list-body">
-            {!votesArr.length ? 'No votes' : votesArr.map((item, id) => (
-              <StatsItem
-                vote={item}
-                typeOfModal={typeOfModal}
-                number={id + 1}
-                key={`Stats${Date.now() + id}`}
-              />
-            ))}
-          </div>
-        );
-        break;
-        case 'escalation4':
-          totalValiatorsView = (
-            <span>Validators Voted: {stageVoting.voters_number}</span>
-          );
-          headerView = (
-            <div className="project__stats-list-header">
-              <div className="header-address-challenge">
-                <span>Validator Address</span>
-              </div>
-              <div className="header-stake-challenge">
-                <span>Stake</span>
-              </div>
-            </div>
-          );
-          listView = (
-            <div className="project__stats-list-body">
-              {!votesArr.length ? 'No votes' : votesArr.map((item, id) => (
-                <StatsItem
-                  vote={item}
-                  typeOfModal={typeOfModal}
-                  number={id + 1}
-                  key={`Stats${Date.now() + id}`}
-                />
-              ))}
-            </div>
-          );
-        break;
-        case 'escalation5':
-          totalValiatorsView = (
-            <span>Validators Voted: {stageVoting.voters_number}</span>
-          );
-          headerView = (
-            <div className="project__stats-list-header">
-              <div className="header-address-challenge">
-                <span>Validator Address</span>
-              </div>
-              <div className="header-stake-challenge">
-                <span>Stake</span>
-              </div>
-            </div>
-          );
-          listView = (
-            <div className="project__stats-list-body">
-              {!votesArr.length ? 'No votes' : votesArr.map((item, id) => (
-                <StatsItem
-                  vote={item}
-                  typeOfModal={typeOfModal}
-                  number={id + 1}
-                  key={`Stats${Date.now() + id}`}
-                />
-              ))}
-            </div>
-          );
-          break;
     default:
       break;
   }

@@ -19,13 +19,13 @@ const ChallengeStep3 = ({ data }) => {
       <span className="project__validate-result">
         {affirmed ? (
           <>
-            Your vote stake {+numOfOPP || 100} OPN will remain locked until
-            stage resolution is confirmed.
+            Your vote stake {+numOfOPP} OPN will remain locked until stage
+            resolution is confirmed.
           </>
         ) : (
           <>
-            Your {+numOfOPP || 100} OPN stake has been unlocked and returned to
-            your balance!
+            Your {+numOfOPP} OPN stake has been unlocked and returned to your
+            balance!
           </>
         )}
       </span>

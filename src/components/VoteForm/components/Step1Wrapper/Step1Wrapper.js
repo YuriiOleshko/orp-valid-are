@@ -4,40 +4,13 @@ import ChallengeStep1 from '../ChallengeStep1';
 import ValidationStep1 from '../ValidationStep1';
 
 const Step1Wrapper = ({ data }) => {
-  const {
-    isActiveAlert,
-    challengePeriod,
-    numOfOPP,
-    setNumOfOPP,
-    submitVote,
-    affirmDataUpload,
-    stakingFinished,
-    denyDataUpload,
-    escalationPeriod,
-  } = data;
+  const { challengePeriod } = data;
   return (
     <>
       {challengePeriod ? (
-        <ChallengeStep1
-          data={{
-            isActiveAlert,
-            numOfOPP,
-            setNumOfOPP,
-            submitVote,
-            escalationPeriod,
-          }}
-        />
+        <ChallengeStep1 data={data} />
       ) : (
-        <ValidationStep1
-          data={{
-            isActiveAlert,
-            numOfOPP,
-            setNumOfOPP,
-            affirmDataUpload,
-            stakingFinished,
-            denyDataUpload,
-          }}
-        />
+        <ValidationStep1 data={data} />
       )}
     </>
   );

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import ResultItem from '../ResultItem';
 
 function ValidationResult({ setTypeOfModal, pastPeriods }) {
-  // console.log(pastPeriods);
   return (
     <div className="project__validation-result">
       <h3 className="project__validation-result__heading">

@@ -8,7 +8,7 @@ function ChallengeStep2({ data }) {
     stakingFinished,
     confirmVote,
     cancelVote,
-    changeVote,
+    payForVote,
     // voteResult,
     numOfOPP,
     userVoteApproved,
@@ -34,7 +34,7 @@ function ChallengeStep2({ data }) {
         {!userVoteApproved && (
           <CustomBtn
             label="Confirm"
-            handleClick={changeVote}
+            handleClick={payForVote}
             customClass="btn__load"
           />
         )}

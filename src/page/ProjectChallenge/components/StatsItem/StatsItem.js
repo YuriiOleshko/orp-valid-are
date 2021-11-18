@@ -44,41 +44,8 @@ const StatsItem = ({ vote, totalStake, affirmed, number, typeOfModal }) => {
       );
       break;
     case 'challenge':
-      itemView = (
-        <>
-          <div className="item-address-challenge">
-            <span>{vote.owner_id}</span>
-          </div>
-          <div className="item-stake-challenge">
-            <span>{vote.stake} OPN</span>
-          </div>
-        </>
-      );
-      break;
     case 'escalation3':
-      itemView = (
-        <>
-          <div className="item-address-challenge">
-            <span>{vote.owner_id}</span>
-          </div>
-          <div className="item-stake-challenge">
-            <span>{vote.stake} OPN</span>
-          </div>
-        </>
-      );
-      break;
     case 'escalation4':
-      itemView = (
-        <>
-          <div className="item-address-challenge">
-            <span>{vote.owner_id}</span>
-          </div>
-          <div className="item-stake-challenge">
-            <span>{vote.stake} OPN</span>
-          </div>
-        </>
-      );
-      break;
     case 'escalation5':
       itemView = (
         <>

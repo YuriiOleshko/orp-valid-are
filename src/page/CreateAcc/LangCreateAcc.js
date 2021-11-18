@@ -15,6 +15,12 @@ const inputPlaceholderEmail = {
   id: 'acc.input-email',
   defaultMessage: 'E-mail',
 };
+const inputPlaceholderTerms = {
+  id: 'acc.input-terms',
+  defaultMessage:
+    'By continuing, you agree to OFP Conditions of Use and Privacy Notice.',
+};
+
 const inputPlaceholderPassword = {
   id: 'acc.input-pas',
   defaultMessage: 'Password',
@@ -38,5 +44,6 @@ export {
   inputPlaceholderPassword,
   inputPlaceholderRePassword,
   btnLabel,
+  inputPlaceholderTerms,
   btnLateLabel,
 };

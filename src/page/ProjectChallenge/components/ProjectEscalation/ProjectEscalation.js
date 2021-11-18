@@ -2,18 +2,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from 'react';
-import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 
 import Ongoing from '../../../../components/Ongoing';
-import OngoingResult from '../../../../components/OngoingResult';
-import VoteInfo from '../../../../components/VoteInfo';
 import VoteForm from '../../../../components/VoteForm';
 import StageReport from '../../../../components/StageReport';
-import StageStatus from '../StageStatus';
 import Resolution from '../../../../components/Resolution';
-import ValidationResult from '../ValidationResult';
-import ValidationStats from '../ValidationStats';
 import PreviewReport from '../../../../components/PreviewReport';
 
 import fullTree1 from '../../../../assets/image/trees/fullTree1.svg';
@@ -35,31 +29,17 @@ const randomTreeImage = treeImages[Math.round(Math.random() * 2)];
 
 const ProjectEscalation = ({ data }) => {
   const {
-    // openDate,
-    // closeDate,
-    affirmed,
     timeLeft,
     validationFinished,
     stakingFinished,
     setStakingFinished,
     escalationPeriod,
-    // numOfEscalation,
-    userStake,
-    userVote,
     arrOfResolution,
-    // challengeVote,
-    // validationVote,
-    userVoteApproved,
     currentStage,
-    lastActivePeriod,
-    currentPeriod,
   } = data;
 
   const [viewStageReport, setViewStageReport] = useState(false);
-  const location = useLocation();
-  const [name] = location.pathname.split('/').splice(-1);
-  // const [typeOfModal, setTypeOfModal] = useState('');
-  // console.log(arrOfResolution, 'RESOLUTIONS');
+
   return (
     <div className="project">
       <div className="project__header">
@@ -96,40 +76,15 @@ const ProjectEscalation = ({ data }) => {
         );
       })}
       <div className="project__body">
-        {validationFinished ? (
-          <OngoingResult
-            data={{ ...data }}
-            affirmedText="Escalation SUCCESSFUL!"
-            deniedText="Escalation FAILED!"
-            challengePeriod
-          />
-        ) : (
-          <Ongoing
-            data={{ ...data, timeLeft }}
-            stakingFinished={stakingFinished}
-            setStakingFinished={setStakingFinished}
-            title="Ongoing Escalation Window"
-          />
-        )}
+        <Ongoing
+          data={data}
+          stakingFinished={stakingFinished}
+          setStakingFinished={setStakingFinished}
+          title="Ongoing Escalation Window"
+        />
         <div className="project__validation-info">
-          {validationFinished && (
-            <VoteInfo
-              validationFinished={validationFinished}
-              finishedTitle="Escalation Completed"
-              treeHeight={0}
-              growTree={randomTreeImage[1]}
-              afterTree={randomTreeImage[2]}
-              affirmed={affirmed}
-            />
-          )}
           <VoteForm
-            data={{
-              ...data,
-              timeLeft,
-              userStake,
-              userVote,
-              userVoteApproved,
-            }}
+            data={data}
             stakingFinished={stakingFinished}
             setStakingFinished={setStakingFinished}
             validationFinished={validationFinished}
